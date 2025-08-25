@@ -1,0 +1,16 @@
+.dashboard {
+  display: flex;
+}
+
+.content {
+  margin-left: 220px; /* Same as sidebar width */
+  padding: 30px;
+  width: 100%;
+  min-height: 100vh;
+  background: #f4f6f9;
+}
+
+.content h1 {
+  font-size: 28px;
+  color: #2c3e50;
+}

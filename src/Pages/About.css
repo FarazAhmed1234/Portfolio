@@ -1,0 +1,18 @@
+.about-section {
+  background: white;
+  text-align: center;
+}
+
+.about-section p {
+  max-width: 700px;
+  margin: 10px auto;
+  line-height: 1.6;
+}
+
+.about-details {
+  margin-top: 20px;
+  font-size: 1rem;
+}
+.about-details p {
+  margin: 8px 0;
+}
