@@ -57,6 +57,8 @@
   background: linear-gradient(135deg, #6a11cb, #2575fc);
   border-radius: 6px;
   font-weight: bold;
+      width: 208px;
+
 }
 
 .logout {
