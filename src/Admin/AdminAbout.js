@@ -116,26 +116,26 @@ const About = () => {
   };
 
   const handleDeleteSkill = async (id) => {
-  if (!window.confirm("Are you sure you want to delete this skill?")) return;
+    if (!window.confirm("Are you sure you want to delete this skill?")) return;
 
-  try {
-    const res = await fetch("http://localhost:8080/backend-portfolio/delete_skill.php", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id }),
-    });
-    const result = await res.json();
-    if (result.status === "success") {
-      alert("Skill deleted successfully!");
-      fetchSkills();
-    } else {
-      alert("Error: " + result.message);
+    try {
+      const res = await fetch("http://localhost:8080/backend-portfolio/delete_skill.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id }),
+      });
+      const result = await res.json();
+      if (result.status === "success") {
+        alert("Skill deleted successfully!");
+        fetchSkills();
+      } else {
+        alert("Error: " + result.message);
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Delete request failed!");
     }
-  } catch (err) {
-    console.error(err);
-    alert("Delete request failed!");
-  }
-};
+  };
 
   // -------- SKILLS --------
   const fetchSkills = async () => {
@@ -147,12 +147,21 @@ const About = () => {
       console.error("Error fetching skills:", err);
     }
   };
-
 const handleSkillSubmit = async (e) => {
   e.preventDefault();
+
+  // Convert percentage to number
+  const percentageNum = Number(percentage);
+
+  // Validate percentage
+  if (percentageNum <= 0 || percentageNum > 100) {
+    alert("❌ Percentage must be greater than 0 and less than or equal to 100!");
+    return;
+  }
+
   const formData = new FormData();
   formData.append("skill", skill);
-  formData.append("percentage", percentage);
+  formData.append("percentage", percentageNum); // make sure it's a number
   if (editSkillId) formData.append("id", editSkillId);
 
   try {
@@ -165,7 +174,7 @@ const handleSkillSubmit = async (e) => {
     const result = await res.json();
     if (result.status === "success") {
       if (editSkillId) {
-        alert("✅ Skill updated successfully!");
+        alert("🎉 Skill updated successfully!");
       } else {
         alert("🎉 New skill added successfully!");
       }
@@ -227,7 +236,7 @@ const handleSkillSubmit = async (e) => {
       <div className="page-container">
         <h2 className="about">About Page</h2>
 
-       
+
 
         {/* Details Section */}
         <h1>Details</h1>
@@ -284,59 +293,56 @@ const handleSkillSubmit = async (e) => {
         </div>
 
 
-   {/* Skills Section */}
-<h1 style={{marginTop:"150px"}}>Skills</h1>
- <div className="about-buttons">
-          <button className="btn" onClick={() => setShowSkillModal(true)} style={{marginLeft:"930px",marginTop:"-40px",marginBottom:"40px"}}>
+        {/* Skills Section */}
+        <h1 style={{ marginTop: "150px" }}>Skills</h1>
+        <div className="about-buttons">
+          <button className="btn" onClick={() => setShowSkillModal(true)} style={{ marginLeft: "930px", marginTop: "-40px", marginBottom: "40px" }}>
             <FaPlus /> Add Skills
           </button>
-      
-        </div>
-<div className="skills-list">
-  {skillsList.length > 0 ? (
-    skillsList.map((s) => (
-      <div key={s.id} className="skill-card">
-        <div className="skill-header">
-          <span>{s.skill}</span>
-          <span>{s.percentage}%</span>
-        </div>
-        <div className="skill-bar">
-          <div
-            className="skill-fill"
-            style={{ width: `${s.percentage}%` }}
-          ></div>
-        </div>
-        <button
-          className="btn edit"
-          onClick={() => {
-            setSkill(s.skill);
-            setPercentage(s.percentage);
-            setEditSkillId(s.id);
-            setShowSkillModal(true);
-          }}
-        >
-          Edit
-        </button>
 
-         <button
-      className="btn delete"
-      onClick={() => handleDeleteSkill(s.id)}
-    >
-      <FaTrash /> Delete
-    </button>
+        </div>
+        <div className="skills-list">
+          {skillsList.length > 0 ? (
+            skillsList.map((s) => (
+              <div key={s.id} className="skill-card">
+                <div className="skill-header">
+                  <span>{s.skill}</span>
+                </div>
+                <div className="skill-bar">
+                  <div
+                    className="skill-fill"
+                    style={{ width: `${s.percentage}%` }}
+                  ></div>
+                </div>
+                <button
+                  className="btn edit"
+                  onClick={() => {
+                    setSkill(s.skill);
+                    setPercentage(s.percentage);
+                    setEditSkillId(s.id);
+                    setShowSkillModal(true);
+                  }}
+                >
+                  Edit
+                </button>
 
-    
-      </div>
-    ))
-  ) : (
-    <p>No skills added yet.</p>
-  )}
-</div>
+                <button
+                  className="btn delete"
+                  onClick={() => handleDeleteSkill(s.id)}
+                >
+                  <FaTrash /> Delete
+                </button>
+              </div>
+            ))
+          ) : (
+            <p>No skills added yet.</p>
+          )}
+        </div>
 
         {/* Education Section */}
-        <h1 style={{marginTop:"150px"}}>Education</h1>
-                   <div className="about-buttons">
-        <button className="btn" onClick={() => setShowEduModal(true)}  style={{marginLeft:"900px",marginTop:"-40px",marginBottom:"40px"}}>
+        <h1 style={{ marginTop: "150px" }}>Education</h1>
+        <div className="about-buttons">
+          <button className="btn" onClick={() => setShowEduModal(true)} style={{ marginLeft: "900px", marginTop: "-40px", marginBottom: "40px" }}>
             <FaPlus /> Add Education
           </button>
         </div>
