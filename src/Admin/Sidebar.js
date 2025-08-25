@@ -8,6 +8,7 @@ import {
   FaEnvelope,
   FaUser,
   FaSignOutAlt,
+  FaTimes,
 } from "react-icons/fa";
 import "./Sidebar.css";
 
@@ -20,54 +21,65 @@ const Sidebar = () => {
     window.location.href = "/";
   };
 
+  const toggleSidebar = () => {
+    setIsOpen(!isOpen);
+  };
+
   return (
     <>
-      {/* Toggle button for mobile */}
-      <div className="sidebar-toggle" onClick={() => setIsOpen(!isOpen)}>
+      {/* Mobile Toggle Button */}
+      <div className="mobile-toggle" onClick={toggleSidebar}>
         <FaBars />
       </div>
 
+      {/* Sidebar */}
       <div className={`sidebar ${isOpen ? "open" : ""}`}>
-        <h5>Admin Dashboard</h5>
+        <div className="sidebar-header">
+          <h5 style={{ fontSize: "23px", marginLeft: "15px" }}>
+            Admin Dashboard
+          </h5>
+          {/* Close button for mobile */}
+          <FaTimes className="close-icon" onClick={toggleSidebar} />
+        </div>
 
         <ul>
           <li>
-            <NavLink to="/dashboard" end>
+            <NavLink to="/dashboard" end onClick={toggleSidebar}>
               <FaBars /> Overview
             </NavLink>
           </li>
           <li>
-            <NavLink to="/adminprofile">
+            <NavLink to="/adminprofile" onClick={toggleSidebar}>
               <FaUser /> Profile
             </NavLink>
           </li>
           <li>
-            <NavLink to="/adminabout">
+            <NavLink to="/adminabout" onClick={toggleSidebar}>
               <FaBook /> About
             </NavLink>
           </li>
           <li>
-            <NavLink to="/projects">
+            <NavLink to="/projects" onClick={toggleSidebar}>
               <FaFolder /> Projects
             </NavLink>
           </li>
           <li>
-            <NavLink to="/services">
+            <NavLink to="/services" onClick={toggleSidebar}>
               <FaCog /> Services
             </NavLink>
           </li>
           <li>
-            <NavLink to="/blog">
+            <NavLink to="/blog" onClick={toggleSidebar}>
               <FaBook /> Blog
             </NavLink>
           </li>
           <li>
-            <NavLink to="/messages">
+            <NavLink to="/messages" onClick={toggleSidebar}>
               <FaEnvelope /> Messages
             </NavLink>
           </li>
           <li>
-            <NavLink to="/settings">
+            <NavLink to="/settings" onClick={toggleSidebar}>
               <FaCog /> Settings
             </NavLink>
           </li>
