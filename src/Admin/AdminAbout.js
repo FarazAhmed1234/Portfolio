@@ -16,35 +16,47 @@ const About = () => {
   // -------- Skills States --------
   const [showSkillModal, setShowSkillModal] = useState(false);
   const [skill, setSkill] = useState("");
-  const [percentage, setPercentage] = useState(""); // FIXED missing state
+  const [percentage, setPercentage] = useState("");
   const [skillsList, setSkillsList] = useState([]);
   const [editSkillId, setEditSkillId] = useState(null);
 
   // -------- Education States --------
   const [showEduModal, setShowEduModal] = useState(false);
-  const [education, setEducation] = useState("");
+  const [eduName, setEduName] = useState("");
+  const [eduStart, setEduStart] = useState("");
+  const [eduEnd, setEduEnd] = useState("");
+  const [eduInstitution, setEduInstitution] = useState("");
   const [eduList, setEduList] = useState([]);
   const [editEduId, setEditEduId] = useState(null);
 
-  // -------- DETAILS --------
-  const handleOpenModal = () => setShowModal(true);
-  const handleCloseModal = () => {
-    setShowModal(false);
-    setEditId(null);
-    setDetails("");
-    setStory("");
-    setCv(null);
-  };
-
+  // ---------- Fetch Functions ----------
   const fetchDetails = async () => {
     try {
-      const response = await fetch("http://localhost:8080/backend-portfolio/get_about.php");
-      const result = await response.json();
-      if (result.status === "success") {
-        setAboutList(result.data);
-      }
-    } catch (error) {
-      console.error("Error fetching details:", error);
+      const res = await fetch("http://localhost:8080/backend-portfolio/get_about.php");
+      const result = await res.json();
+      if (result.status === "success") setAboutList(result.data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const fetchSkills = async () => {
+    try {
+      const res = await fetch("http://localhost:8080/backend-portfolio/get_skills.php");
+      const data = await res.json();
+      if (data.status === "success") setSkillsList(data.data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const fetchEducation = async () => {
+    try {
+      const res = await fetch("http://localhost:8080/backend-portfolio/get_education.php");
+      const data = await res.json();
+      if (data.status === "success") setEduList(data.data);
+    } catch (err) {
+      console.error(err);
     }
   };
 
@@ -53,6 +65,16 @@ const About = () => {
     fetchSkills();
     fetchEducation();
   }, []);
+
+  // ---------- Details Handlers ----------
+  const handleOpenModal = () => setShowModal(true);
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setEditId(null);
+    setDetails("");
+    setStory("");
+    setCv(null);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -63,24 +85,21 @@ const About = () => {
     if (editId) formData.append("id", editId);
 
     try {
-      const response = await fetch(
+      const res = await fetch(
         editId
           ? "http://localhost:8080/backend-portfolio/update_about.php"
           : "http://localhost:8080/backend-portfolio/save_about.php",
         { method: "POST", body: formData }
       );
-
-      const result = await response.json();
+      const result = await res.json();
       if (result.status === "success") {
         alert(editId ? "Details updated!" : "Details saved!");
         handleCloseModal();
         fetchDetails();
-      } else {
-        alert("Error: " + result.message);
-      }
-    } catch (error) {
+      } else alert("Error: " + result.message);
+    } catch (err) {
+      console.error(err);
       alert("Request failed!");
-      console.error(error);
     }
   };
 
@@ -92,32 +111,63 @@ const About = () => {
     setShowModal(true);
   };
 
-  const handleDelete = async (id, type) => {
-    if (!window.confirm(`Are you sure you want to delete ${type}?`)) return;
-
+  const handleDelete = async (id, type, category) => {
+    if (!window.confirm(`Are you sure you want to delete ${category}?`)) return;
     try {
-      const response = await fetch("http://localhost:8080/backend-portfolio/delete_about.php", {
+      const res = await fetch(`http://localhost:8080/backend-portfolio/delete_about.php`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ id, type }),
       });
-
-      const result = await response.json();
+      const result = await res.json();
       if (result.status === "success") {
-        alert(`${type} deleted successfully!`);
+        alert(`${category} deleted successfully!`);
         fetchDetails();
-      } else {
-        alert("Error: " + result.message);
-      }
-    } catch (error) {
-      console.error(error);
+      } else alert("Error: " + result.message);
+    } catch (err) {
+      console.error(err);
       alert("Delete request failed!");
+    }
+  };
+
+  // ---------- Skills Handlers ----------
+  const handleSkillSubmit = async (e) => {
+    e.preventDefault();
+    const percentageNum = Number(percentage);
+    if (percentageNum <= 0 || percentageNum > 100) {
+      alert("❌ Percentage must be 1-100!");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("skill", skill);
+    formData.append("percentage", percentageNum);
+    if (editSkillId) formData.append("id", editSkillId);
+
+    try {
+      const res = await fetch(
+        editSkillId
+          ? "http://localhost:8080/backend-portfolio/update_skill.php"
+          : "http://localhost:8080/backend-portfolio/save_skill.php",
+        { method: "POST", body: formData }
+      );
+      const result = await res.json();
+      if (result.status === "success") {
+        alert(editSkillId ? "Skill updated!" : "Skill added!");
+        setShowSkillModal(false);
+        setSkill("");
+        setPercentage("");
+        setEditSkillId(null);
+        fetchSkills();
+      } else alert("Error: " + result.message);
+    } catch (err) {
+      console.error(err);
+      alert("Request failed!");
     }
   };
 
   const handleDeleteSkill = async (id) => {
     if (!window.confirm("Are you sure you want to delete this skill?")) return;
-
     try {
       const res = await fetch("http://localhost:8080/backend-portfolio/delete_skill.php", {
         method: "POST",
@@ -125,89 +175,22 @@ const About = () => {
         body: JSON.stringify({ id }),
       });
       const result = await res.json();
-      if (result.status === "success") {
-        alert("Skill deleted successfully!");
-        fetchSkills();
-      } else {
-        alert("Error: " + result.message);
-      }
+      if (result.status === "success") fetchSkills();
+      else alert("Error: " + result.message);
     } catch (err) {
       console.error(err);
-      alert("Delete request failed!");
+      alert("Request failed!");
     }
   };
 
-  // -------- SKILLS --------
-  const fetchSkills = async () => {
-    try {
-      const res = await fetch("http://localhost:8080/backend-portfolio/get_skills.php");
-      const data = await res.json();
-      if (data.status === "success") setSkillsList(data.data);
-    } catch (err) {
-      console.error("Error fetching skills:", err);
-    }
-  };
-const handleSkillSubmit = async (e) => {
-  e.preventDefault();
-
-  // Convert percentage to number
-  const percentageNum = Number(percentage);
-
-  // Validate percentage
-  if (percentageNum <= 0 || percentageNum > 100) {
-    alert("❌ Percentage must be greater than 0 and less than or equal to 100!");
-    return;
-  }
-
-  const formData = new FormData();
-  formData.append("skill", skill);
-  formData.append("percentage", percentageNum); // make sure it's a number
-  if (editSkillId) formData.append("id", editSkillId);
-
-  try {
-    const res = await fetch(
-      editSkillId
-        ? "http://localhost:8080/backend-portfolio/update_skill.php"
-        : "http://localhost:8080/backend-portfolio/save_skill.php",
-      { method: "POST", body: formData }
-    );
-    const result = await res.json();
-    if (result.status === "success") {
-      if (editSkillId) {
-        alert("🎉 Skill updated successfully!");
-      } else {
-        alert("🎉 New skill added successfully!");
-      }
-      setShowSkillModal(false);
-      setSkill("");
-      setPercentage("");
-      setEditSkillId(null);
-      fetchSkills();
-    } else {
-      alert("❌ Error: " + result.message);
-    }
-  } catch (err) {
-    console.error(err);
-    alert("⚠️ Request failed!");
-  }
-};
-
-
-  // -------- EDUCATION --------
-  const fetchEducation = async () => {
-    try {
-      const res = await fetch("http://localhost:8080/backend-portfolio/get_education.php");
-      const data = await res.json();
-      if (data.status === "success") setEduList(data.data);
-    } catch (err) {
-      console.error("Error fetching education:", err);
-    }
-  };
-
+  // ---------- Education Handlers ----------
   const handleEduSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData();
-    formData.append("education", education);
+    formData.append("name", eduName);
+    formData.append("start_year", eduStart);
+    formData.append("end_year", eduEnd);
+    formData.append("institution", eduInstitution);
     if (editEduId) formData.append("id", editEduId);
 
     try {
@@ -221,12 +204,42 @@ const handleSkillSubmit = async (e) => {
       if (result.status === "success") {
         alert(editEduId ? "Education updated!" : "Education added!");
         setShowEduModal(false);
-        setEducation("");
+        setEduName("");
+        setEduStart("");
+        setEduEnd("");
+        setEduInstitution("");
         setEditEduId(null);
         fetchEducation();
-      }
+      } else alert("Error: " + result.message);
     } catch (err) {
       console.error(err);
+      alert("Request failed!");
+    }
+  };
+
+  const handleEditEdu = (edu) => {
+    setEduName(edu.name);
+    setEduStart(edu.start_year);
+    setEduEnd(edu.end_year);
+    setEduInstitution(edu.institution);
+    setEditEduId(edu.id);
+    setShowEduModal(true);
+  };
+
+  const handleDeleteEdu = async (id) => {
+    if (!window.confirm("Are you sure you want to delete this education?")) return;
+    try {
+      const res = await fetch("http://localhost:8080/backend-portfolio/delete_education.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id }),
+      });
+      const result = await res.json();
+      if (result.status === "success") fetchEducation();
+      else alert("Error: " + result.message);
+    } catch (err) {
+      console.error(err);
+      alert("Request failed!");
     }
   };
 
@@ -236,8 +249,6 @@ const handleSkillSubmit = async (e) => {
       <div className="page-container">
         <h2 className="about">About Page</h2>
 
-
-
         {/* Details Section */}
         <h1>Details</h1>
         <div className="about-list">
@@ -245,16 +256,14 @@ const handleSkillSubmit = async (e) => {
             aboutList.map((item) => (
               <div key={item.id} className="about-card">
                 <div className="about-row">
-                  <strong>Details:</strong>
-                  <span>{item.details}</span>
+                  <strong>Details:</strong> <span>{item.details}</span>
                 </div>
                 <div className="about-row">
-                  <strong>Story:</strong>
-                  <span>{item.story}</span>
+                  <strong>Story:</strong> <span>{item.story}</span>
                 </div>
                 {item.cv && (
                   <div className="about-row">
-                    <strong>CV:</strong>
+                    <strong>CV:</strong>{" "}
                     <a
                       href={`http://localhost:8080/backend-portfolio/uploads/${item.cv}`}
                       target="_blank"
@@ -265,22 +274,30 @@ const handleSkillSubmit = async (e) => {
                   </div>
                 )}
                 <div className="card-actions">
-                  <button className="btn edit" onClick={() => handleEdit(item)}>
+                  <button className="btn edit1" onClick={() => handleEdit(item)}>
                     <FaEdit /> Edit
                   </button>
                   <div className="dropdown">
                     <button
                       className="btn delete"
-                      onClick={() => setDropdownOpen(dropdownOpen === item.id ? null : item.id)}
+                      onClick={() =>
+                        setDropdownOpen(dropdownOpen === item.id ? null : item.id)
+                      }
                     >
                       <FaTrash /> Delete <FaChevronDown />
                     </button>
                     {dropdownOpen === item.id && (
                       <div className="dropdown-menu">
-                        <button onClick={() => handleDelete(item.id, "all")}>Delete All</button>
-                        <button onClick={() => handleDelete(item.id, "details")}>Delete Details</button>
-                        <button onClick={() => handleDelete(item.id, "story")}>Delete Story</button>
-                        <button onClick={() => handleDelete(item.id, "cv")}>Delete CV</button>
+                        <button onClick={() => handleDelete(item.id, "all", "All")}>
+                          Delete All
+                        </button>
+                        <button onClick={() => handleDelete(item.id, "details", "Details")}>
+                          Delete Details
+                        </button>
+                        <button onClick={() => handleDelete(item.id, "story", "Story")}>
+                          Delete Story
+                        </button>
+                        <button onClick={() => handleDelete(item.id, "cv", "CV")}>Delete CV</button>
                       </div>
                     )}
                   </div>
@@ -292,27 +309,20 @@ const handleSkillSubmit = async (e) => {
           )}
         </div>
 
-
         {/* Skills Section */}
         <h1 style={{ marginTop: "150px" }}>Skills</h1>
         <div className="about-buttons">
-          <button className="btn" onClick={() => setShowSkillModal(true)} style={{ marginLeft: "930px", marginTop: "-40px", marginBottom: "40px" }}>
+          <button className="btn-skill" onClick={() => setShowSkillModal(true)}>
             <FaPlus /> Add Skills
           </button>
-
         </div>
         <div className="skills-list">
           {skillsList.length > 0 ? (
             skillsList.map((s) => (
               <div key={s.id} className="skill-card">
-                <div className="skill-header">
-                  <span>{s.skill}</span>
-                </div>
+                <div className="skill-header">{s.skill}</div>
                 <div className="skill-bar">
-                  <div
-                    className="skill-fill"
-                    style={{ width: `${s.percentage}%` }}
-                  ></div>
+                  <div className="skill-fill" style={{ width: `${s.percentage}%` }}></div>
                 </div>
                 <button
                   className="btn edit"
@@ -325,11 +335,7 @@ const handleSkillSubmit = async (e) => {
                 >
                   Edit
                 </button>
-
-                <button
-                  className="btn delete"
-                  onClick={() => handleDeleteSkill(s.id)}
-                >
+                <button className="btn delete" onClick={() => handleDeleteSkill(s.id)}>
                   <FaTrash /> Delete
                 </button>
               </div>
@@ -340,104 +346,105 @@ const handleSkillSubmit = async (e) => {
         </div>
 
         {/* Education Section */}
-        <h1 style={{ marginTop: "150px" }}>Education</h1>
+         <h1 style={{ marginTop: "150px" }}>Education</h1>
         <div className="about-buttons">
-          <button className="btn" onClick={() => setShowEduModal(true)} style={{ marginLeft: "900px", marginTop: "-40px", marginBottom: "40px" }}>
+          <button className="btn-add" onClick={() => setShowEduModal(true)} >
             <FaPlus /> Add Education
           </button>
         </div>
-        <ul>
-          {eduList.length > 0 ? (
-            eduList.map((e) => (
-              <li key={e.id}>
-                {e.education}
-                <button
-                  onClick={() => {
-                    setEducation(e.education);
-                    setEditEduId(e.id);
-                    setShowEduModal(true);
-                  }}
-                >
-                  Edit
-                </button>
-              </li>
-            ))
-          ) : (
-            <p>No education added yet.</p>
-          )}
-        </ul>
+<div className="education-list">
+  
+  {eduList.length > 0 ? (
+    eduList.map((edu) => (
+      <div key={edu.id} className="education-card">
+        <h3>{edu.name}</h3>
+        <p>{edu.institution}</p>
+        <span>{edu.start_year} - {edu.end_year}</span>
+        <br />
+        <br />
+        
+        <button className="btn edit" onClick={() => handleEditEdu(edu)}>
+          <FaEdit /> Edit
+        </button>
+        <button className="btn delete" onClick={() => handleDeleteEdu(edu.id)}>
+          <FaTrash /> Delete
+        </button>
       </div>
+    ))
+  ) : (
+    <p>No education added yet.</p>
+  )}
+</div>
 
-      {/* Details Modal */}
-      {showModal && (
-        <div className="modal-overlay">
-          <div className="modal">
-            <h3>{editId ? "Edit Details" : "Add Details"}</h3>
-            <form onSubmit={handleSubmit}>
-              <label>Details</label>
-              <input type="text" value={details} onChange={(e) => setDetails(e.target.value)} required />
-              <label>Story</label>
-              <textarea value={story} onChange={(e) => setStory(e.target.value)} required></textarea>
-              <label>Upload CV</label>
-              <input type="file" accept=".pdf,.doc,.docx" onChange={(e) => setCv(e.target.files[0])} required={!editId} />
-              <div className="modal-actions">
-                <button type="submit" className="btn">Save</button>
-                <button type="button" className="btn cancel" onClick={handleCloseModal}>Cancel</button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
+    
 
-      {/* Skill Modal */}
-      {showSkillModal && (
-        <div className="modal-overlay">
-          <div className="modal">
-            <h3>{editSkillId ? "Edit Skill" : "Add Skill"}</h3>
-            <form onSubmit={handleSkillSubmit}>
-              <label>Skill</label>
-              <input
-                type="text"
-                value={skill}
-                placeholder="Enter the skill name: "
-                onChange={(e) => setSkill(e.target.value)}
-                required
-              />
-              <label>Knowledge (%)</label>
-              <input
-                type="number"
-                value={percentage}
-                placeholder="1-100 "
-                onChange={(e) => setPercentage(e.target.value)}
-                min="1"
-                max="100"
-                required
-              />
-              <div className="modal-actions">
-                <button type="submit" className="btn">Save</button>
-                <button type="button" className="btn cancel" onClick={() => setShowSkillModal(false)}>Cancel</button>
-              </div>
-            </form>
+        {/* Details Modal */}
+        {showModal && (
+          <div className="modal-overlay">
+            <div className="modal">
+              <h3>{editId ? "Edit Details" : "Add Details"}</h3>
+              <form onSubmit={handleSubmit}>
+                <label>Details</label>
+                <input type="text" value={details} onChange={(e) => setDetails(e.target.value)} required />
+                <label>Story</label>
+                <textarea value={story} onChange={(e) => setStory(e.target.value)} required />
+                <label>Upload CV</label>
+                <input type="file" accept=".pdf,.doc,.docx" onChange={(e) => setCv(e.target.files[0])} required={!editId} />
+                <div className="modal-actions">
+                  <button type="submit" className="btn">Save</button>
+                  <button type="button" className="btn cancel" onClick={handleCloseModal}>Cancel</button>
+                </div>
+              </form>
+            </div>
           </div>
-        </div>
-      )}
+        )}
 
-      {/* Education Modal */}
-      {showEduModal && (
-        <div className="modal-overlay">
-          <div className="modal">
-            <h3>{editEduId ? "Edit Education" : "Add Education"}</h3>
-            <form onSubmit={handleEduSubmit}>
-              <label>Education</label>
-              <input type="text" value={education} onChange={(e) => setEducation(e.target.value)} required />
-              <div className="modal-actions">
-                <button type="submit" className="btn">Save</button>
-                <button type="button" className="btn cancel" onClick={() => setShowEduModal(false)}>Cancel</button>
-              </div>
-            </form>
+        {/* Skill Modal */}
+        {showSkillModal && (
+          <div className="modal-overlay">
+            <div className="modal">
+              <h3>{editSkillId ? "Edit Skill" : "Add Skill"}</h3>
+              <form onSubmit={handleSkillSubmit}>
+                <label>Skill</label>
+                <input type="text" value={skill} onChange={(e) => setSkill(e.target.value)} required />
+                <label>Knowledge (%)</label>
+                <input type="number" value={percentage} onChange={(e) => setPercentage(e.target.value)} min="1" max="100" required />
+                <div className="modal-actions">
+                  <button type="submit" className="btn">Save</button>
+                  <button type="button" className="btn cancel" onClick={() => setShowSkillModal(false)}>Cancel</button>
+                </div>
+              </form>
+            </div>
           </div>
-        </div>
-      )}
+        )}
+
+        {/* Education Modal */}
+        {showEduModal && (
+          <div className="modal-overlay">
+            <div className="modal">
+              <h3>{editEduId ? "Edit Education" : "Add Education"}</h3>
+              <form onSubmit={handleEduSubmit}>
+                <label>Education / Degree Name</label>
+                <input type="text" value={eduName} onChange={(e) => setEduName(e.target.value)} required />
+
+                <label>Start Year</label>
+                <input type="number" value={eduStart} onChange={(e) => setEduStart(e.target.value)} required />
+
+                <label>End Year</label>
+                <input type="number" value={eduEnd} onChange={(e) => setEduEnd(e.target.value)} required />
+
+                <label>Institution</label>
+                <input type="text" value={eduInstitution} onChange={(e) => setEduInstitution(e.target.value)} required />
+
+                <div className="modal-actions">
+                  <button type="submit" className="btn">Save</button>
+                  <button type="button" className="btn cancel" onClick={() => setShowEduModal(false)}>Cancel</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        )}
+      </div>
     </>
   );
 };

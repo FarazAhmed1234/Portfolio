@@ -22,6 +22,50 @@
   color: white;
 }
 
+
+
+
+.btn-skill {
+  background: linear-gradient(135deg, #6a11cb, #2575fc);
+  color: white;
+  border: none;
+  padding: 12px 18px;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+margin-top: -50px;
+  gap: 8px;
+  margin-left: 930px;
+}
+
+.btn-skill:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+}
+
+.btn-add {
+  background: linear-gradient(135deg, #6a11cb, #2575fc);
+  color: white;
+  border: none;
+  padding: 12px 18px;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+margin-top: -50px;
+  gap: 8px;
+  margin-left: 900px;
+}
+
+.btn-add:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+}
+
+
 /* ---------------- Buttons ---------------- */
 .about-buttons {
   display: flex;
@@ -67,6 +111,14 @@
   margin-top: 15px;
 }
 
+.btn.edit1 {
+  background: linear-gradient(135deg, #00c6ff, #0072ff);
+}
+
+.btn.edit1:hover {
+  background: linear-gradient(135deg, #0072ff, #00c6ff);
+  box-shadow: 0 4px 12px rgba(0, 114, 255, 0.4);
+}
 .btn.edit {
   background: linear-gradient(135deg, #00c6ff, #0072ff);
 }
@@ -220,35 +272,86 @@
   box-shadow: 0 4px 12px rgba(0, 114, 255, 0.5);
 }
 
-/* ---------------- Education List ---------------- */
-ul {
+/* ---------------- Education Section ---------------- */
+.education-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 20px;
   margin-top: 20px;
-  list-style: disc;
-  padding-left: 20px;
 }
 
-ul li {
-  margin-bottom: 12px;
+.education-card {
+  background: #111123;
+  border-radius: 16px;
+  padding: 20px;
+  color: #fff;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  position: relative;
+}
+
+.education-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(102, 126, 234, 0.5);
+}
+
+.education-card h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #4fc3f7;
+}
+
+.education-card p {
   font-size: 14px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  margin: 4px 0;
+  color: #ccc;
 }
 
-ul li button {
-  background: linear-gradient(135deg, #00c6ff, #0072ff);
-  color: white;
-  border: none;
-  padding: 5px 10px;
-  font-size: 12px;
+/* -------- Action Buttons (Edit & Delete) -------- */
+.education-card .actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.education-card .btn {
+  padding: 6px 12px;
+  font-size: 13px;
   border-radius: 6px;
   cursor: pointer;
-  transition: all 0.3s ease;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+  font-weight: 500;
 }
 
-ul li button:hover {
+/* Edit Button */
+.education-card .btn.edit {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  padding: 6px 10px;
+  font-size: 12px;
+}
+
+.education-card .btn.edit:hover {
   background: linear-gradient(135deg, #0072ff, #00c6ff);
-  box-shadow: 0 3px 10px rgba(0, 114, 255, 0.4);
+  box-shadow: 0 4px 12px rgba(0, 114, 255, 0.5);
+}
+
+/* Delete Button */
+.education-card .btn.delete {
+  background: linear-gradient(45deg, #f44336, #e53935);
+  color: white;
+  margin-left: 20px;
+}
+
+.education-card .btn.delete:hover {
+  background: linear-gradient(45deg, #d32f2f, #b71c1c);
 }
 
 /* ---------------- Modal Overlay & Box ---------------- */
@@ -319,30 +422,199 @@ ul li button:hover {
   gap: 10px;
 }
 
-
-
-
 /* ---------------- Responsive Adjustments ---------------- */
-@media (max-width: 768px) {
-  .skills-list {
-    grid-template-columns: 1fr;
-  }
-
-  .skill-card {
-    padding: 18px 20px;
+@media (max-width: 1024px) {
+  .page-container {
+    margin-left: 200px;
+    padding: 25px;
   }
 }
 
-@media (max-width: 480px) {
-  .skill-card .btn.edit {
-    top: 10px;
-    right: 10px;
-    padding: 5px 8px;
-    font-size: 11px;
+@media (max-width: 900px) {
+  .education-list {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .page-container {
+    margin-left: 0;
+    padding: 20px 15px;
+    padding-top: 80px;
   }
 
   .about-buttons {
     flex-direction: column;
     gap: 12px;
+    justify-content: flex-start;
+  }
+
+  .skills-list {
+    grid-template-columns: 1fr;
+  }
+
+  .education-list {
+    grid-template-columns: 1fr;
+  }
+
+  .about-row {
+    flex-direction: column;
+  }
+
+  .about-row strong {
+    margin-bottom: 5px;
+  }
+
+  .card-actions {
+    flex-direction: column;
+    align-items: flex-end;
+  }
+
+  .modal {
+    padding: 20px;
+  }
+
+  .btn-add{
+        margin-left: 244px;
+        width: 145px;
+        margin-top: -30px;
+        margin-bottom: 34px;  }
+  .btn-skill{
+        margin-left: 244px;
+        width: 145px;
+        margin-top: -30px;
+        margin-bottom: 34px;  }
+
+  .modal-actions {
+    flex-direction: column;
+  }
+
+  .modal-actions .btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .page-container {
+    padding: 15px 10px;
+    padding-top: 70px;
+  }
+
+  .btn.edit1{
+            margin-right: 134px;
+
+  }
+    .btn-add{
+        margin-left: 210px;
+        width: 185px;
+        margin-top: -30px;
+        margin-bottom: 34px;  }
+  .btn-skill{
+        margin-left: 244px;
+        width: 145px;
+        margin-top: -30px;
+        margin-bottom: 34px;  }
+
+  .about {
+    font-size: 22px;
+    text-align: center;
+  }
+
+  h1 {
+    font-size: 20px;
+  
+  }
+.btn.edit{
+width: 67px;
+        height: 33px;
+      }
+  .btn.delete{
+margin-left: 247px;
+        margin-top: -46px;
+  }
+
+  .btn {
+    padding: 10px 14px;
+    font-size: 14px;
+  }
+
+  .about-card, .skill-card, .education-card {
+    padding: 15px;
+  }
+
+  .skill-header {
+    font-size: 15px;
+  }
+
+  .education-card h3 {
+    font-size: 16px;
+    padding-right: 0;
+  }
+
+  .dropdown-menu {
+    right: 0;
+    left: auto;
+  }
+
+  .modal-overlay {
+    padding: 10px;
+  }
+
+  .modal {
+    padding: 15px;
+  }
+
+  .modal h3 {
+    font-size: 18px;
+  }
+
+  /* Reset absolute buttons */
+  .skill-card .btn.edit,
+  .education-card .btn.edit {
+    position: static;
+    margin-bottom: 10px;
+  }
+
+  .skill-actions, .edu-actions {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 350px) {
+  .dropdown-menu {
+    position: fixed;
+    left: 10px;
+    right: 10px;
+    width: auto;
+  }
+}
+
+/* ---------------- Print Styles ---------------- */
+@media print {
+  .about-buttons, .card-actions, .skill-actions, .edu-actions {
+    display: none !important;
+  }
+
+  .page-container {
+    margin-left: 0;
+    background: white;
+    color: black;
+  }
+
+  .about-card, .skill-card, .education-card {
+    box-shadow: none;
+    border: 1px solid #ddd;
+    background: white;
+    color: black;
+  }
+
+  .about-row strong {
+    color: black;
+  }
+
+  .skill-fill {
+    background: #ccc !important;
+    color: black !important;
   }
 }
