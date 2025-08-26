@@ -56,29 +56,7 @@ const About = () => {
                 </a>
               </div>
     
-              {/* Right Side - Stats */}
-              <div className="story-stats">
-                <div className="stat-card">
-                  <FaCode className="stat-icon" />
-                  <h3>50+</h3>
-                  <p>Projects Completed</p>
-                </div>
-                <div className="stat-card">
-                  <FaUsers className="stat-icon" />
-                  <h3>30+</h3>
-                  <p>Happy Clients</p>
-                </div>
-                <div className="stat-card">
-                  <FaMedal className="stat-icon" />
-                  <h3>3+</h3>
-                  <p>Years Experience</p>
-                </div>
-                <div className="stat-card">
-                  <FaCoffee className="stat-icon" />
-                  <h3>1000+</h3>
-                  <p>Cups of Coffee</p>
-                </div>
-              </div>
+    
             </div>
           </section>
 
