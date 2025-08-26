@@ -1,18 +1,310 @@
+/* ---------------- General Reset ---------------- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* ================= About Section ================= */
 .about-section {
-  background: white;
+  background: #181835;
+  text-align: center;
+  padding: 100px 20px;
+  color: white;
+}
+
+.about-title {
+  font-size: 3rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.about-title span {
+  background: linear-gradient(90deg, #6a5af9, #8f5eff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.about-text {
+  font-size: 1.2rem;
+  max-width: 700px;
+  margin: 0 auto;
+  line-height: 1.7;
+  color: #a8b2d1;
+}
+
+/* ================= My Story Section ================= */
+.story-section {
+  background: #0d0d1f;
+  color: white;
+  padding: 80px 20px;
+}
+
+.story-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 50px;
+  max-width: 1200px;
+  margin: auto;
+  flex-wrap: wrap;
+}
+
+.story-text {
+  flex: 1;
+  min-width: 300px;
+}
+
+.story-title {
+  font-size: 2.2rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.story-text p {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: #a8b2d1;
+  margin-bottom: 15px;
+}
+
+/* Download CV Button */
+.download-btn {
+  margin-top: 20px;
+  padding: 12px 25px;
+  font-size: 1rem;
+  font-weight: 500;
+  background: linear-gradient(90deg, #6a5af9, #8f5eff);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  color: white;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: 0.3s;
+  box-shadow: 0px 4px 10px rgba(122, 92, 252, 0.3);
+}
+
+.download-btn:hover {
+  opacity: 0.9;
+  transform: translateY(-2px);
+  box-shadow: 0px 6px 14px rgba(122, 92, 252, 0.5);
+}
+
+/* Story Stats */
+.story-stats {
+  flex: 1;
+  min-width: 280px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.stat-card {
+  background: #111126;
+  padding: 30px 20px;
+  border-radius: 12px;
+  text-align: center;
+  transition: 0.3s;
+}
+
+.stat-card:hover {
+  transform: translateY(-6px);
+  background: #181832;
+}
+
+.stat-icon {
+  font-size: 2rem;
+  color: #7c5cfc;
+  margin-bottom: 15px;
+}
+
+.stat-card h3 {
+  font-size: 1.6rem;
+  font-weight: bold;
+}
+
+.stat-card p {
+  font-size: 0.95rem;
+  color: #a8b2d1;
+  margin-top: 5px;
+}
+
+/* ================= Skills Section ================= */
+.skills-section {
+  background: #0d0d1f;
+  color: white;
+  padding: 80px 20px;
   text-align: center;
 }
 
-.about-section p {
-  max-width: 700px;
-  margin: 10px auto;
-  line-height: 1.6;
+.skills-title {
+  font-size: 2.2rem;
+  font-weight: bold;
+  margin-bottom: 10px;
 }
 
-.about-details {
-  margin-top: 20px;
+.skills-subtitle {
   font-size: 1rem;
+  color: #a8b2d1;
+  margin-bottom: 40px;
 }
-.about-details p {
-  margin: 8px 0;
+
+.skills-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 25px 50px;
+  max-width: 1000px;
+  margin: 0 auto;
+  text-align: left;
+}
+
+.skill-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 6px;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.progress-bar {
+  height: 8px;
+  background: #1e1e2f;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #6a5af9, #8f5eff);
+  border-radius: 6px;
+  transition: width 1s ease-in-out;
+}
+
+/* ================= Education Section ================= */
+.education-section {
+  background: #0d0d1f;
+  padding: 80px 20px;
+  color: white;
+  text-align: center;
+}
+
+.education-title {
+  font-size: 2.2rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.edu-subtitle {
+  font-size: 1rem;
+  color: #a8b2d1;
+  margin-bottom: 40px;
+}
+
+.education-container {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  max-width: 700px;
+  margin: auto;
+  position: relative;
+  padding-left: 30px;
+  border-left: 2px solid rgba(124, 92, 252, 0.4);
+}
+
+.education-card {
+  position: relative;
+  padding: 20px 25px;
+  background: #111126;
+  border-radius: 12px;
+  text-align: left;
+  transition: 0.3s;
+}
+
+.education-card:hover {
+  transform: translateY(-6px);
+  background: #181832;
+}
+
+.education-card::before {
+  content: "";
+  position: absolute;
+  left: -38px;
+  top: 20px;
+  width: 16px;
+  height: 16px;
+  background: linear-gradient(90deg, #6a5af9, #8f5eff);
+  border-radius: 50%;
+  border: 3px solid #0d0d1f;
+}
+
+.edu-icon {
+  font-size: 1.5rem;
+  color: #7c5cfc;
+  margin-bottom: 8px;
+}
+
+.education-card h3 {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.education-card p {
+  color: #a8b2d1;
+  margin-bottom: 3px;
+}
+
+.education-card span {
+  font-size: 0.9rem;
+  color: #888;
+}
+
+/* ================= Responsive Design ================= */
+@media (max-width: 992px) {
+  .story-container {
+    flex-direction: column;
+    text-align: center;
+    gap: 30px;
+  }
+
+  .story-text {
+    text-align: center;
+  }
+
+  .story-stats {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .skills-container {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 576px) {
+  .about-title {
+    font-size: 2.2rem;
+  }
+
+  .story-title,
+  .skills-title,
+  .education-title {
+    font-size: 1.8rem;
+  }
+
+  .stat-card {
+    padding: 20px 15px;
+  }
+
+  .education-container {
+    padding-left: 15px;
+  }
+
+  .education-card::before {
+    left: -28px;
+    width: 12px;
+    height: 12px;
+  }
 }
