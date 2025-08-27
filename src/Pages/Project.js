@@ -1,114 +1,124 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Navbar from "./Navbar";
-
+import { FiExternalLink } from "react-icons/fi";
+import { FaGithub } from "react-icons/fa";
 import "./Project.css";
 
-
-
-
-
-
-const categories = ["All", "Web Development", "Mobile Apps", "UI/UX Design", "E-commerce"];
-
-const projects = [
-  {
-    id: 1,
-    title: "E-Commerce Platform",
-    category: "E-commerce",
-    desc: "A modern e-commerce platform built with React, Node.js, and Stripe integration for seamless online shopping experience.",
-    image: "https://via.placeholder.com/400x250", // replace with real image
-    tags: ["React", "Node.js", "MongoDB", "Stripe"],
-    demo: "#"
-  },
-  {
-    id: 2,
-    title: "Task Management App",
-    category: "Web Development",
-    desc: "A collaborative task management application with real-time updates, team collaboration features, and productivity analytics.",
-    image: "https://via.placeholder.com/400x250",
-    tags: ["React", "TypeScript", "Socket.io", "PostgreSQL"],
-    demo: "#"
-  },
-  {
-    id: 3,
-    title: "Fitness Mobile App",
-    category: "Mobile Apps",
-    desc: "A comprehensive fitness tracking app with workout plans, progress tracking, and social features for motivation.",
-    image: "https://via.placeholder.com/400x250",
-    tags: ["React Native", "Firebase", "Redux", "Expo"],
-    demo: "#"
-  }
-];
-
+// ✅ Helper to normalize tech_stack (string or array)
+const normalizeTags = (stack) => {
+  if (Array.isArray(stack)) return stack;
+  if (typeof stack === "string") return stack.split(",");
+  return [];
+};
 
 const PortfolioHeader = () => {
-    const [active, setActive] = useState("All");
+  const [active, setActive] = useState("All");
+  const [description, setDescription] = useState("");
+  const [categories, setCategories] = useState(["All"]);
+  const [projects, setProjects] = useState([]);
 
   const filteredProjects =
-    active === "All" ? projects : projects.filter((p) => p.category === active);
+    active === "All"
+      ? projects
+      : projects.filter((p) => p.category_name === active);
+
+  // Fetch description
+  useEffect(() => {
+    fetch("http://localhost:8080/backend-portfolio/faraz/getDescription.php")
+      .then((res) => res.json())
+      .then((data) => setDescription(data.description))
+      .catch((err) => console.error("Error fetching description:", err));
+  }, []);
+
+  // Fetch categories
+  useEffect(() => {
+    fetch("http://localhost:8080/backend-portfolio/faraz/getCategories.php")
+      .then((res) => res.json())
+      .then((data) => setCategories(["All", ...data]))
+      .catch((err) => console.error("Error fetching categories:", err));
+  }, []);
+
+  // Fetch projects
+  useEffect(() => {
+    fetch("http://localhost:8080/backend-portfolio/faraz/getProjects.php")
+      .then((res) => res.json())
+      .then((data) => setProjects(data))
+      .catch((err) => console.error("Error fetching projects:", err));
+  }, []);
 
   return (
     <>
-    <Navbar />
-    <section className="portfolio-header">
-      <h1>
-        My <span>Project</span>
-      </h1>
-      <p>
-        A collection of projects that showcase my skills in web development,
-        mobile apps, and creative design solutions.
-      </p>
-    </section>
+      <Navbar />
 
-        <section className="projects-section">
-      {/* Filter Buttons */}
-      <div className="filter-buttons">
-        {categories.map((cat) => (
-          <button
-            key={cat}
-            className={`filter-btn ${active === cat ? "active" : ""}`}
-            onClick={() => setActive(cat)}
-          >
-            {cat}
-          </button>
-        ))}
-      </div>
+      {/* Portfolio Header */}
+      <section className="portfolio-header">
+        <h1>
+          My <span>Portfolio</span>
+        </h1>
+        <p>{description}</p>
+      </section>
 
-      {/* Projects Grid */}
-      <div className="projects-grid">
-        {filteredProjects.map((proj) => (
-          <div key={proj.id} className="project-card">
-            <img src={proj.image} alt={proj.title} />
-            <div className="project-content">
-              <span className="project-category">{proj.category}</span>
-              <h3>{proj.title}</h3>
-              <p>{proj.desc}</p>
+      <section className="projects-section">
+        {/* Filter Buttons */}
+        <div className="filter-buttons">
+          {categories.map((cat) => (
+            <button
+              key={cat}
+              className={`filter-btn ${active === cat ? "active" : ""}`}
+              onClick={() => setActive(cat)}
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
 
-              <div className="project-tags">
-                {proj.tags.map((tag, i) => (
-                  <span key={i}>{tag}</span>
-                ))}
+        {/* Projects Grid */}
+        <div className="projects-grid">
+          {filteredProjects.map((proj) => (
+            <div key={proj.id} className="project-card" style={{    width: "499px"}}>
+              {/* Image + Overlay */}
+              <div className="project-image-wrapper">
+                <img src={proj.image || "/default-placeholder.jpg"} alt={proj.name} />
+                <div className="overlay-buttons">
+                  {proj.live_url && (
+                    <a
+                      href={proj.live_url}
+                      className="live-btn"
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      <FiExternalLink /> Live Demo
+                    </a>
+                  )}
+                  {proj.github_url && (
+                    <a
+                      href={proj.github_url}
+                      className="github-btn"
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      <FaGithub />
+                    </a>
+                  )}
+                </div>
               </div>
 
-              <a href={proj.demo} className="demo-btn" target="_blank" rel="noreferrer">
-                Live Demo
-              </a>
+              {/* Details */}
+              <div className="project-content">
+                <span className="project-category">{proj.category_name}</span>
+                <h3>{proj.name}</h3>
+                <p>{proj.description}</p>
+
+                <div className="project-tags">
+                  {normalizeTags(proj.tech_stack).map((tag, i) => (
+                    <span key={i}>{tag.trim()}</span>
+                  ))}
+                </div>
+              </div>
             </div>
-          </div>
-        ))}
-      </div>
-    </section>
-
-
-     <section className="cta-section">
-      <h2>Have a Project in Mind?</h2>
-      <p>
-        Let's collaborate and create something extraordinary together. 
-        I'm always excited to work on new challenges.
-      </p>
-      <a href="#contact" className="cta-btn">Start a Project</a>
-    </section>
-
+          ))}
+        </div>
+      </section>
     </>
   );
 };

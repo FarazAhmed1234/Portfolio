@@ -57,19 +57,20 @@ const ProjectModal = ({ projectData, setProjectData, onSave, onClose, categories
           className="project-input"
         />
 
-        <select
-          name="category_id"
-          value={projectData.category_id || ""}
-          onChange={handleChange}
-          className="project-input"
-        >
-          <option value="">Select Category</option>
-          {categories.map((c) => (
-            <option key={c.id} value={c.id}>
-              {c.name}
-            </option>
-          ))}
-        </select>
+       <select
+  name="category_name"    // ✅ use category_name instead of category_name
+  value={projectData.category_name || ""}
+  onChange={handleChange}
+  className="project-input"
+>
+  <option value="">Select Category</option>
+  {categories.map((c) => (
+    <option key={c.id} value={c.name}>   {/* ✅ send category name */}
+      {c.name}
+    </option>
+  ))}
+</select>
+
 
         <textarea
           name="description"
@@ -133,7 +134,7 @@ const Project = () => {
   const [criteriaName, setCriteriaName] = useState("");
   const [projectData, setProjectData] = useState({
     name: "",
-    category_id: "",
+  category_name: "",   
     description: "",
     tech_stack: "",
     live_url: "",
@@ -223,7 +224,7 @@ const Project = () => {
       }
     } else if (type === "project") {
       if (!projectData.name.trim()) return alert("Project name is required");
-      if (!projectData.category_id) return alert("Category is required");
+      if (!projectData.category_name) return alert("Category is required");
 
       const formData = new FormData();
       for (let key in projectData) {
@@ -247,7 +248,7 @@ const Project = () => {
         setEditId(null);
         setProjectData({
           name: "",
-          category_id: "",
+          category_name: "",
           description: "",
           tech_stack: "",
           live_url: "",
@@ -292,7 +293,7 @@ const Project = () => {
     } else if (type === "project") {
       setProjectData({
         name: item.name,
-        category_id: item.category_id,
+        category_name: item.category_name,
         description: item.description,
         tech_stack: item.tech_stack,
         live_url: item.live_url,
@@ -306,7 +307,7 @@ const Project = () => {
   const handleAddProject = () => {
     setProjectData({
       name: "",
-      category_id: "",
+      category_name: "",
       description: "",
       tech_stack: "",
       live_url: "",
