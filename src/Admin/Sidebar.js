@@ -59,7 +59,7 @@ const Sidebar = () => {
             </NavLink>
           </li>
           <li>
-            <NavLink to="/projects" onClick={toggleSidebar}>
+            <NavLink to="/adminprojects" onClick={toggleSidebar}>
               <FaFolder /> Projects
             </NavLink>
           </li>

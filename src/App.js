@@ -11,6 +11,9 @@ import Login from "./Admin/Login";
 import AdminDashboard from "./Admin/AdminDashboard";
 import AdminProfile from "./Admin/AdminProfile";
 import AdminAbout from "./Admin/AdminAbout";
+import AdminProject from "./Admin/AdminProject";
+
+
 
 function App() {
   return (
@@ -26,6 +29,10 @@ function App() {
         <Route path="/dashboard" element={<AdminDashboard />} />
         <Route path="/adminprofile" element={<AdminProfile />} />
         <Route path="/adminabout" element={<AdminAbout />} />
+        <Route path="/adminprojects" element={<AdminProject />} />
+
+
+        
       </Routes>
     </Router>
   );
