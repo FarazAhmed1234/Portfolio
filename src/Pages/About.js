@@ -4,9 +4,9 @@ import Navbar from "./Navbar";
 import "./About.css";
 
 const About = () => {
- const [skills, setSkills] = useState([]);
+  const [skills, setSkills] = useState([]);
   const [education, setEducation] = useState([]);
-    const [aboutDetails, setAboutDetails] = useState({ details: "", story: "", cv: "" });
+  const [aboutDetails, setAboutDetails] = useState({ details: "", story: "", cv: "" });
 
 
 
@@ -18,15 +18,15 @@ const About = () => {
       .catch((err) => console.error("Error fetching skills:", err));
   }, []);
 
-    // Fetch education
+  // Fetch education
   useEffect(() => {
     fetch("http://localhost:8080/backend-portfolio/faraz/getEducation.php")
       .then((res) => res.json())
       .then((data) => setEducation(data))
       .catch((err) => console.error("Error fetching education:", err));
   }, []);
-  
-    useEffect(() => {
+
+  useEffect(() => {
     fetch("http://localhost:8080/backend-portfolio/faraz/getAbout.php")
       .then((res) => res.json())
       .then((data) => setAboutDetails(data))
@@ -37,7 +37,7 @@ const About = () => {
       <Navbar />
 
       {/* About Section */}
-       <section className="about-section">
+      <section className="about-section">
         <h1 className="about-title">
           About <span>Me</span>
         </h1>
@@ -45,23 +45,23 @@ const About = () => {
       </section>
 
       <section className="story-section">
-            <div className="story-container">
-              {/* Left Side - Text */}
-              <div className="story-text">
-                <h2 className="story-title">My Story</h2>
-                <h3>{aboutDetails.story}</h3>
-    
-                <a href={aboutDetails.cv} download className="download-btn">
-                  <FaDownload /> Download CV
-                </a>
-              </div>
-    
-    
-            </div>
-          </section>
+        <div className="story-container">
+          {/* Left Side - Text */}
+          <div className="story-text">
+            <h2 className="story-title">My Story</h2>
+            <h3>{aboutDetails.story}</h3>
+
+            <a href={aboutDetails.cv} download className="download-btn">
+              <FaDownload /> Download CV
+            </a>
+          </div>
+
+
+        </div>
+      </section>
 
       {/* Skills Section */}
-       <section className="skills-section">
+      <section className="skills-section">
         <h2 className="skills-title">Skills & Expertise</h2>
         <p className="skills-subtitle">
           Technologies and tools I use to bring ideas to life.
@@ -76,10 +76,10 @@ const About = () => {
                   <span>{skill.percentage}</span>
                 </div>
                 <div className="progress-bar">
-              <div
-            className="progress-fill"
-            style={{ width: `${skill.percentage}%` }} // Force % format
-          ></div>
+                  <div
+                    className="progress-fill"
+                    style={{ width: `${skill.percentage}%` }} // Force % format
+                  ></div>
                 </div>
               </div>
             ))
@@ -89,13 +89,13 @@ const About = () => {
         </div>
       </section>
 
-  <section className="education-section">
+      <section className="education-section">
         <h2 className="education-title">Education</h2>
         <p className="edu-subtitle">My academic journey and qualifications</p>
 
         <div className="education-container">
           {education.length > 0 ? (
-            education.map((edu, index) => (
+            educatison.map((edu, index) => (
               <div key={index} className="education-card">
                 <FaGraduationCap className="edu-icon" />
                 <div>
