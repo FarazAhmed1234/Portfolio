@@ -95,7 +95,7 @@ const About = () => {
 
         <div className="education-container">
           {education.length > 0 ? (
-            educatison.map((edu, index) => (
+            education.map((edu, index) => (
               <div key={index} className="education-card">
                 <FaGraduationCap className="edu-icon" />
                 <div>
