@@ -34,7 +34,7 @@ const Contact = () => {
       .then((res) => res.json())
       .then((data) => {
         if (data.success) {
-          setSocialLinks(data.data); 
+          setSocialLinks(data.data);
           // Example: { LinkedIn: "...", GitHub: "...", Twitter: "..." }
         }
       })
@@ -174,16 +174,16 @@ const Contact = () => {
                     <FaTwitter className="icon" /> Twitter
                   </a>
                 )}
-                
 
-{info.Email && (
-  <a
-    href={`https://mail.google.com/mail/?view=cm&fs=1&to=${info.Email}&su=Let's Connect&body=Hi, I would like to discuss a project.`}
-    target="_blank"
-    rel="noreferrer"
-  >
-    <FiMail className="icon" /> Email
-  </a>
+
+                {info.Email && (
+                  <a
+                    href={`https://mail.google.com/mail/?view=cm&fs=1&to=${info.Email}&su=Let's Connect&body=Hi, I would like to discuss a project.`}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <FiMail className="icon" /> Email
+                  </a>
 
 
                 )}
