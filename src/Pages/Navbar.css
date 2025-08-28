@@ -6,8 +6,12 @@
   padding: 14px 40px;
   background: #1e2235;
   position: sticky;
-  top: 0;
-  z-index: 1000;
+
+      width: auto;
+    z-index: 1000;
+    margin-top: -19px;
+    margin-left: -18px;
+    margin-right: -18px;
 }
 
 /* ---------------- Logo ---------------- */

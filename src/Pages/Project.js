@@ -4,7 +4,7 @@ import { FiExternalLink } from "react-icons/fi";
 import { FaGithub } from "react-icons/fa";
 import "./Project.css";
 
-// ✅ Helper to normalize tech_stack (string or array)
+// ✅ Normalize tech stack
 const normalizeTags = (stack) => {
   if (Array.isArray(stack)) return stack;
   if (typeof stack === "string") return stack.split(",");
@@ -50,7 +50,9 @@ const PortfolioHeader = () => {
     <>
       <Navbar />
 
-      {/* Portfolio Header */}
+      {/* =========================
+          Portfolio Header
+      ========================== */}
       <section className="portfolio-header">
         <h1>
           My <span>Portfolio</span>
@@ -58,6 +60,9 @@ const PortfolioHeader = () => {
         <p>{description}</p>
       </section>
 
+      {/* =========================
+          Projects Section
+      ========================== */}
       <section className="projects-section">
         {/* Filter Buttons */}
         <div className="filter-buttons">
@@ -75,10 +80,13 @@ const PortfolioHeader = () => {
         {/* Projects Grid */}
         <div className="projects-grid">
           {filteredProjects.map((proj) => (
-            <div key={proj.id} className="project-card" style={{    width: "499px"}}>
+            <div key={proj.id} className="project-card">
               {/* Image + Overlay */}
               <div className="project-image-wrapper">
-                <img src={proj.image || "/default-placeholder.jpg"} alt={proj.name} />
+                <img
+                  src={proj.image || "/default-placeholder.jpg"}
+                  alt={proj.name}
+                />
                 <div className="overlay-buttons">
                   {proj.live_url && (
                     <a
@@ -119,6 +127,23 @@ const PortfolioHeader = () => {
           ))}
         </div>
       </section>
+
+      {/* =========================
+          CTA Section
+      ========================== */}
+      <div className="project-section">
+        <h1>Have a Project in Mind?</h1>
+        <p>
+          Let's collaborate and create something extraordinary together. I'm
+          always excited to work on new challenges.
+        </p>
+        <button
+          className="project-btn"
+          onClick={() => (window.location.href = "/contact")}
+        >
+          Start a Project
+        </button>
+      </div>
     </>
   );
 };

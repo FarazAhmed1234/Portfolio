@@ -1,0 +1,321 @@
+/* ---------------- General Reset ---------------- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* ---------------- Page Layout ---------------- */
+body {
+  background: #0d0d1f;
+  color: white;
+  padding: 20px;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  margin-left: 250px;
+  padding: 20px;
+}
+
+/* ---------------- Header ---------------- */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 30px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #2a2a40;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.header-title {
+  margin-top: 40px;
+  flex: 1;
+}
+
+h1 {
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 5px;
+}
+
+.message-subtitle {
+  color: #a0a0c0;
+  font-size: 0.9rem;
+      margin-left: -480px;
+
+}
+
+.header-controls {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.search-box {
+  position: relative;
+}
+
+.search-box input {
+  padding: 10px 15px 10px 40px;
+  border: 1px solid #333;
+  border-radius: 6px;
+  width: 250px;
+  font-size: 14px;
+  background: #111123;
+  color: #eee;
+  transition: all 0.3s ease;
+}
+
+.search-box input:focus {
+  outline: none;
+  border-color: #6a11cb;
+  box-shadow: 0 0 0 2px rgba(106, 17, 203, 0.2);
+}
+
+.search-icon {
+  position: absolute;
+  left: 15px;
+  top: 35%;
+  transform: translateY(-50%);
+  color: #888;
+}
+
+.filter-btn {
+  background: #0f3460;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 15px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: white;
+  transition: background 0.3s ease;
+}
+
+.filter-btn:hover {
+  background: #162447;
+}
+
+/* ---------------- Table & Messages ---------------- */
+.messages-card {
+  background: #111123;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+  overflow: hidden;
+  min-height: 400px;
+  display: flex;
+  flex-direction: column;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  flex-grow: 1;
+}
+
+th {
+  text-align: left;
+  padding: 16px 20px;
+  background-color: #1a1a2e;
+  color: #6a11cb;
+  font-weight: 500;
+  border-bottom: 1px solid #2a2a40;
+}
+
+td {
+  padding: 16px 20px;
+  border-bottom: 1px solid #2a2a40;
+  color: #ddd;
+}
+
+tr:last-child td {
+  border-bottom: none;
+}
+
+tr:hover {
+  background-color: #0f0f1f;
+  cursor: pointer;
+}
+
+tr.unread {
+  background-color: rgba(106, 17, 203, 0.05);
+}
+
+tr.unread:hover {
+  background-color: rgba(106, 17, 203, 0.1);
+}
+
+/* ---------------- Status Indicators ---------------- */
+.status-cell {
+  text-align: center;
+  width: 50px;
+}
+
+.status-unread {
+  color: #ff944d;
+  font-size: 18px;
+}
+
+.status-read {
+  color: #4ade80;
+  font-size: 18px;
+}
+
+/* ---------------- Email Link ---------------- */
+.email-link {
+  color: #6a11cb;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.email-link:hover {
+  color: #8b5cf6;
+  text-decoration: underline;
+}
+
+/* ---------------- Message Preview ---------------- */
+.msg-preview {
+  max-width: 200px;
+}
+
+/* ---------------- Action Buttons ---------------- */
+.action-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  color: #aaa;
+  margin-right: 12px;
+  transition: color 0.2s;
+  padding: 5px;
+  border-radius: 4px;
+}
+
+.action-btn:hover {
+  color: #6a11cb;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.action-btn.delete:hover {
+  color: #ef4444;
+  background: rgba(239, 68, 68, 0.1);
+}
+
+/* ---------------- Pagination ---------------- */
+.pagination {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+  gap: 8px;
+  border-top: 1px solid #2a2a40;
+  margin-top: auto;
+}
+
+.pagination-btn {
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  border: 1px solid #333;
+  background: #1a1a2e;
+  color: #eee;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.pagination-btn:hover:not(:disabled) {
+  background: #2a2a40;
+}
+
+.pagination-btn.active {
+  background: linear-gradient(135deg, #6a11cb, #2575fc);
+  color: white;
+  border-color: #6a11cb;
+}
+
+.pagination-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ---------------- Status Messages ---------------- */
+.loading, .error, .no-messages {
+  padding: 40px;
+  text-align: center;
+  color: #a0a0c0;
+  font-size: 1.1rem;
+}
+
+.error {
+  color: #ef4444;
+}
+
+/* ---------------- Responsive ---------------- */
+@media (max-width: 1024px) {
+  .container {
+    margin-left: 0;
+    padding: 15px;
+  }
+}
+
+@media (max-width: 768px) {
+  header {
+    flex-direction: column;
+  }
+  
+  .header-controls {
+    width: 100%;
+  }
+  
+  .message-subtitle {
+    margin-left: 01px;
+  }
+  .search-box {
+    width: 100%;
+  }
+  
+  .search-box input {
+    width: 100%;
+  }
+  
+  .messages-card {
+    overflow-x: auto;
+  }
+  
+  table {
+    min-width: 700px;
+  }
+  
+  .pagination {
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    padding: 10px;
+  }
+  
+  .container {
+    padding: 10px;
+  }
+  
+  th, td {
+    padding: 12px 15px;
+  }
+  
+  .pagination-btn {
+    width: 34px;
+    height: 34px;
+    font-size: 12px;
+  }
+}

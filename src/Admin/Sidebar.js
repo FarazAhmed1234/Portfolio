@@ -79,8 +79,8 @@ const Sidebar = () => {
             </NavLink>
           </li>
           <li>
-            <NavLink to="/settings" onClick={toggleSidebar}>
-              <FaCog /> Settings
+            <NavLink to="/information" onClick={toggleSidebar}>
+              <FaCog /> Infomation
             </NavLink>
           </li>
         </ul>

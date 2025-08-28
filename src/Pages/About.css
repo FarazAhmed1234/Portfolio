@@ -12,6 +12,9 @@
   text-align: center;
   padding: 100px 20px;
   color: white;
+      width: auto;
+    margin-left: -17px;
+    margin-right: -23px;
 }
 
 .about-title {
