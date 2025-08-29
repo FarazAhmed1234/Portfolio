@@ -69,8 +69,8 @@ const Sidebar = () => {
             </NavLink>
           </li>
           <li>
-            <NavLink to="/blog" onClick={toggleSidebar}>
-              <FaBook /> Blog
+            <NavLink to="/admincertifications" onClick={toggleSidebar}>
+              <FaBook /> Certifications
             </NavLink>
           </li>
           <li>
