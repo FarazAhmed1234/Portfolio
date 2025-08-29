@@ -1,0 +1,37 @@
+/* Additional styles for Services */
+.points-container {
+  margin-bottom: 15px;
+}
+
+.point-input-group {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.point-input-group .project-input {
+  flex: 1;
+  margin-right: 8px;
+}
+
+.remove-point-btn, .add-point-btn {
+  padding: 5px 10px;
+  background: #f44336;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.add-point-btn {
+  background: #4CAF50;
+}
+
+.service-points {
+  padding-left: 20px;
+  margin: 10px 0;
+}
+
+.service-points li {
+  margin-bottom: 5px;
+}

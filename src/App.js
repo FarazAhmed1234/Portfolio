@@ -6,6 +6,8 @@ import Home from "./Pages/Home";
 import About from "./Pages/About";
 import Project from "./Pages/Project";
 import ContactPage from "./Pages/ContactPage";
+import Services from "./Pages/Services";
+
 
 // Admin Pages
 import Login from "./Admin/Login";
@@ -15,6 +17,7 @@ import AdminAbout from "./Admin/AdminAbout";
 import AdminProject from "./Admin/AdminProject";
 import AdminMessage from "./Admin/AdminMessage";
 import AdminInfomation from "./Admin/AdminInfomation";
+import AdminServices from "./Admin/AdminServices";
 
 
 
@@ -29,6 +32,7 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/project" element={<Project />} />
         <Route path="/contact" element={<ContactPage />} />
+        <Route path="/services" element={<Services />} />
 
 
         {/* Admin Routes */}
@@ -39,6 +43,7 @@ function App() {
         <Route path="/adminprojects" element={<AdminProject />} />
         <Route path="/messages" element={<AdminMessage />} />
         <Route path="/information" element={<AdminInfomation />} />
+        <Route path="/adminservices" element={<AdminServices />} />
 
 
         

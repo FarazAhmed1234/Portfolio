@@ -273,6 +273,11 @@
     font-size: 2.2rem;
   }
 
+  .project-card{
+margin-left: -14px;
+        width: 390px;
+  }
+
   .project-card img {
     height: 200px;
   }
@@ -281,3 +286,4 @@
     font-size: 2rem;
   }
 }
+

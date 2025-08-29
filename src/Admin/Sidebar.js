@@ -64,7 +64,7 @@ const Sidebar = () => {
             </NavLink>
           </li>
           <li>
-            <NavLink to="/services" onClick={toggleSidebar}>
+            <NavLink to="/adminservices" onClick={toggleSidebar}>
               <FaCog /> Services
             </NavLink>
           </li>

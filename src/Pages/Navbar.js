@@ -14,7 +14,7 @@ const Navbar = () => {
       {/* Logo */}
       <div className="logo">
         <div className="logo-box">F</div>
-        <span>Faraz Ahmed</span>
+       <span> <span className="new">F</span>araz  <span className="new">A</span>hmed</span>
       </div>
 
       {/* Hamburger Icon */}

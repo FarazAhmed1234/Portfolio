@@ -14,6 +14,11 @@
     margin-right: -18px;
 }
 
+.new{
+      background: linear-gradient(90deg, #6a5af9, #b44cff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
 /* ---------------- Logo ---------------- */
 .logo {
   display: flex;
@@ -31,7 +36,7 @@
 }
 .logo span {
   color: white;
-  font-size: 20px;
+  font-size: 30px;
   font-weight: 600;
   letter-spacing: 0.5px;
 }

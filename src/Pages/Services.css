@@ -1,0 +1,161 @@
+.services-section {
+  background: linear-gradient(135deg, #0a0a1f, #0d0d2e);
+  color: white;
+  text-align: center;
+  padding: 80px 20px;
+}
+
+.services-title {
+  font-size: 48px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.services-title span {
+  color: #6b46ff; /* Purple color for "Services" */
+}
+
+.services-subtitle {
+  font-size: 18px;
+  color: #a0aec0; /* Light gray/blue text */
+  max-width: 700px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+.services-section {
+  background: linear-gradient(135deg, #0a0a1f, #0d0d2e);
+  color: white;
+  text-align: center;
+  padding: 80px 20px;
+}
+
+.services-title {
+  font-size: 48px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.services-title span {
+    background: linear-gradient(90deg, #6a5af9, #b44cff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.services-subtitle {
+  font-size: 18px;
+  color: #a0aec0;
+  max-width: 700px;
+  margin: 0 auto 60px;
+  line-height: 1.6;
+}
+
+.services-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+}
+
+.service-card {
+  background: #11122b;
+  border-radius: 12px;
+  padding: 30px;
+  text-align: left;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.service-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.4);
+}
+
+.service-icon {
+  font-size: 40px;
+  color: #6b46ff;
+  margin-bottom: 15px;
+}
+
+.service-desc {
+  color: #a0aec0;
+  font-size: 15px;
+  margin: 15px 0;
+  line-height: 1.6;
+}
+
+.service-features {
+  list-style: none;
+  padding: 0;
+  margin: 20px 0;
+}
+
+.service-features li {
+  display: flex;
+  align-items: center;
+  color: #cbd5e0;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.check-icon {
+  color: #6b46ff;
+  margin-right: 8px;
+}
+
+.service-price {
+  font-weight: bold;
+  margin: 15px 0;
+  color: #6b46ff;
+}
+
+.service-btn {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(90deg, #6b46ff, #9333ea);
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+}
+
+.service-btn:hover {
+  opacity: 0.9;
+}
+.start-project {
+  background: linear-gradient(90deg, #3b3bb6, #6a11cb);
+  color: #fff;
+  text-align: center;
+  padding: 80px 20px;
+    margin-left: -18px;
+    margin-right: -20px;
+    margin-bottom: -19px;
+    width: auto;
+}
+
+.start-project h2 {
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.start-project p {
+  font-size: 16px;
+  margin-bottom: 30px;
+  color: #e0e0e0;
+}
+
+.consult-btn {
+  display: inline-block;
+  background: #9b5cff;
+  color: #fff;
+  padding: 12px 25px;
+  border-radius: 8px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: 0.3s ease-in-out;
+}
+
+.consult-btn:hover {
+  background: #7b34db;
+}
