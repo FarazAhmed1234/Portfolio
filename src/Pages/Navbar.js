@@ -45,8 +45,8 @@ const Navbar = () => {
           </NavLink>
         </li>
         <li>
-          <NavLink to="/blog" onClick={() => setIsOpen(false)}>
-            Blog
+          <NavLink to="/certifications" onClick={() => setIsOpen(false)}>
+            Certification
           </NavLink>
         </li>
         <li>

@@ -7,6 +7,8 @@ import About from "./Pages/About";
 import Project from "./Pages/Project";
 import ContactPage from "./Pages/ContactPage";
 import Services from "./Pages/Services";
+import Certifications from "./Pages/Certifications";
+
 
 
 // Admin Pages
@@ -18,7 +20,7 @@ import AdminProject from "./Admin/AdminProject";
 import AdminMessage from "./Admin/AdminMessage";
 import AdminInfomation from "./Admin/AdminInfomation";
 import AdminServices from "./Admin/AdminServices";
-
+import AdminCertifications from "./Admin/AdminCertifications";
 
 
 
@@ -33,6 +35,8 @@ function App() {
         <Route path="/project" element={<Project />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/services" element={<Services />} />
+        <Route path="/certifications" element={<Certifications />} />
+
 
 
         {/* Admin Routes */}
@@ -44,6 +48,8 @@ function App() {
         <Route path="/messages" element={<AdminMessage />} />
         <Route path="/information" element={<AdminInfomation />} />
         <Route path="/adminservices" element={<AdminServices />} />
+        <Route path="/admincertifications" element={<AdminCertifications />} />
+
 
 
         

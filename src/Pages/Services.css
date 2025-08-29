@@ -1,3 +1,6 @@
+.body{
+    background-color: black;
+}
 .services-section {
   background: linear-gradient(135deg, #0a0a1f, #0d0d2e);
   color: white;
@@ -24,8 +27,8 @@
 }
 
 .services-section {
-  background: linear-gradient(135deg, #0a0a1f, #0d0d2e);
-  color: white;
+background: linear-gradient(135deg, #0a0a23, #111132);
+    color: white;
   text-align: center;
   padding: 80px 20px;
 }
@@ -73,6 +76,7 @@
   font-size: 40px;
   color: #6b46ff;
   margin-bottom: 15px;
+  text-align: center;
 }
 
 .service-desc {

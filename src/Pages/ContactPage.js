@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./ContactPage.css";
 import Navbar from "./Navbar";
-
-import { FiMail, FiPhone, FiMapPin } from "react-icons/fi";
+import { FiMail, FiPhone, FiMapPin, FiX } from "react-icons/fi";
 import { FaLinkedin, FaGithub, FaTwitter } from "react-icons/fa";
 
 const Contact = () => {
@@ -12,40 +11,40 @@ const Contact = () => {
     message: "",
   });
 
-  const [popup, setPopup] = useState(null);
+  const [toasts, setToasts] = useState([]);
   const [info, setInfo] = useState({ Email: "", Phone: "", Location: "" });
-  const [socialLinks, setSocialLinks] = useState({}); // ✅ store social links
+  const [socialLinks, setSocialLinks] = useState({});
 
-  // 🔹 Fetch contact info
+  // Fetch contact info
   useEffect(() => {
     fetch("http://localhost:8080/backend-portfolio/faraz/get_info.php")
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.success) {
-          setInfo(data.data);
-        }
-      })
-      .catch((err) => console.error("Error fetching info:", err));
+      .then(res => res.json())
+      .then(data => { if (data.success) setInfo(data.data); })
+      .catch(err => console.error(err));
   }, []);
 
-  // 🔹 Fetch social links
+  // Fetch social links
   useEffect(() => {
     fetch("http://localhost:8080/backend-portfolio/faraz/get_social_links.php")
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.success) {
-          setSocialLinks(data.data);
-          // Example: { LinkedIn: "...", GitHub: "...", Twitter: "..." }
-        }
-      })
-      .catch((err) => console.error("Error fetching socials:", err));
+      .then(res => res.json())
+      .then(data => { if (data.success) setSocialLinks(data.data); })
+      .catch(err => console.error(err));
   }, []);
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  // Show toast notification
+  const showToast = (type, title, message, extraInfo = "") => {
+    const id = new Date().getTime();
+    const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    setToasts(prev => [...prev, { id, type, title, message, extraInfo, timestamp }]);
+
+    // Auto-remove after 5 seconds
+    setTimeout(() => {
+      setToasts(prev => prev.filter(t => t.id !== id));
+    }, 5000);
   };
 
   const handleSubmit = async (e) => {
@@ -62,24 +61,34 @@ const Contact = () => {
 
       const result = await response.json();
 
-      if (response.ok) {
-        setPopup({
-          type: "success",
-          text: result.message || "Message sent successfully!",
-        });
+      if (result.success) {
+        showToast(
+          "success",
+          "Message Sent!",
+          result.message,
+          "I'll get back to you within 24-48 hours. Connect on social media meanwhile."
+        );
         setFormData({ name: "", email: "", message: "" });
       } else {
-        setPopup({
-          type: "error",
-          text: result.message || "Something went wrong!",
-        });
+        showToast(
+          "error",
+          "Oops! Something went wrong",
+          result.message,
+          "Try again or contact directly via email."
+        );
       }
-
-      setTimeout(() => setPopup(null), 10000);
     } catch (error) {
-      setPopup({ type: "error", text: "Network error! Try later." });
-      setTimeout(() => setPopup(null), 10000);
+      showToast(
+        "error",
+        "Network Error",
+        "Please check your internet connection.",
+        "Network unavailable, try later."
+      );
     }
+  };
+
+  const closeToast = (id) => {
+    setToasts(prev => prev.filter(t => t.id !== id));
   };
 
   return (
@@ -105,7 +114,6 @@ const Contact = () => {
                 placeholder="Your Name"
                 required
               />
-
               <label>Email</label>
               <input
                 type="email"
@@ -115,7 +123,6 @@ const Contact = () => {
                 placeholder="your@email.com"
                 required
               />
-
               <label>Message</label>
               <textarea
                 name="message"
@@ -124,7 +131,6 @@ const Contact = () => {
                 placeholder="Briefly describe your project..."
                 required
               ></textarea>
-
               <button type="submit">Send Message</button>
             </form>
           </div>
@@ -175,8 +181,7 @@ const Contact = () => {
                   </a>
                 )}
 
-
-                {info.Email && (
+                 {info.Email && (
                   <a
                     href={`https://mail.google.com/mail/?view=cm&fs=1&to=${info.Email}&su=Let's Connect&body=Hi, I would like to discuss a project.`}
                     target="_blank"
@@ -184,12 +189,29 @@ const Contact = () => {
                   >
                     <FiMail className="icon" /> Email
                   </a>
-
-
                 )}
               </div>
             </div>
           </div>
+        </div>
+
+        {/* Toast Notifications */}
+        <div className="toast-container">
+          {toasts.map(toast => (
+            <div key={toast.id} className={`toast ${toast.type}`}>
+              <div className="toast-content">
+                <div className="toast-header">
+                  <strong>{toast.title}</strong>
+                  <span className="toast-time">{toast.timestamp}</span>
+                </div>
+                <p>{toast.message}</p>
+                {toast.extraInfo && <p className="toast-extra">{toast.extraInfo}</p>}
+              </div>
+              <button className="close-btn" onClick={() => closeToast(toast.id)}>
+                <FiX />
+              </button>
+            </div>
+          ))}
         </div>
       </section>
     </>
