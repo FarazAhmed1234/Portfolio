@@ -1,53 +1,26 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "./Navbar";
 import { NavLink } from "react-router-dom";
-import { FaGithub, FaLinkedin, FaEnvelope } from "react-icons/fa";
+import {
+  FaGithub,
+  FaLinkedin,
+  FaEnvelope,
+  FaCode,
+  FaPaintBrush,
+  FaMobileAlt,
+  FaGlobe,
+} from "react-icons/fa";
 import { FiExternalLink } from "react-icons/fi";
-import * as FaIcons from "react-icons/fa"; // import all icons
 
 import heroBg from "../assets/hero-bg.jpg";
 import profilePic from "../assets/my-photo.jpg";
 import "./Home.css";
 
-// Helper to normalize tech stack
+// Normalize project tags (tech stack)
 const normalizeTags = (stack) => {
   if (Array.isArray(stack)) return stack;
   if (typeof stack === "string") return stack.split(",");
   return [];
-};
-
-// --- Icon mapping ---
-const iconMap = {
-  web: FaIcons.FaCode,
-  design: FaIcons.FaPalette,
-  mobile: FaIcons.FaMobileAlt,
-  seo: FaIcons.FaSearch,
-  marketing: FaIcons.FaBullhorn,
-  backend: FaIcons.FaDatabase,
-  frontend: FaIcons.FaLaptopCode,
-  cloud: FaIcons.FaCloud,
-  ui: FaIcons.FaDraftingCompass,
-  ux: FaIcons.FaUser,
-  commerce: FaIcons.FaShoppingCart,
-  analytics: FaIcons.FaChartLine,
-  security: FaIcons.FaShieldAlt,
-  support: FaIcons.FaHeadset,
-  ai: FaIcons.FaRobot,
-  blockchain: FaIcons.FaCube,
-  consulting: FaIcons.FaUsers,
-  content: FaIcons.FaFileAlt,
-  testing: FaIcons.FaCheckCircle,
-  database: FaIcons.FaServer,
-};
-
-// --- Function to get icon by service name ---
-const getIconByName = (name) => {
-  if (!name) return FaIcons.FaCheck; // default fallback
-  const lower = name.toLowerCase();
-  for (const key in iconMap) {
-    if (lower.includes(key)) return iconMap[key];
-  }
-  return FaIcons.FaCheck; // fallback
 };
 
 const Home = () => {
@@ -55,10 +28,35 @@ const Home = () => {
   const [socialLinks, setSocialLinks] = useState({});
   const [email, setEmail] = useState("");
   const [projects, setProjects] = useState([]);
-  const [services, setServices] = useState([]);
-  const [subtitle, setSubtitle] = useState("");
+  const [profile, setProfile] = useState(null);
 
-  // Fetch CV
+  // Typing effect states
+  const [words, setWords] = useState([]);
+  const [text, setText] = useState("");
+  const [wordIndex, setWordIndex] = useState(0);
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  // ---------------- Fetch Profile ----------------
+  useEffect(() => {
+    fetch("http://localhost:8080/backend-portfolio/profile.php")
+      .then((res) => res.json())
+      .then((data) => {
+        const p = data?.data || data?.row || data;
+        if (p) {
+          setProfile(p);
+          if (p.skills) {
+            const skillArray = p.skills
+              .split(",")
+              .map((s) => s.trim())
+              .filter(Boolean);
+            setWords(skillArray.length > 0 ? skillArray : ["Developer"]);
+          }
+        }
+      })
+      .catch((err) => console.error("Error fetching profile:", err));
+  }, []);
+
+  // ---------------- Fetch Other Data ----------------
   useEffect(() => {
     fetch("http://localhost:8080/backend-portfolio/faraz/getAbout.php")
       .then((res) => res.json())
@@ -66,7 +64,6 @@ const Home = () => {
       .catch((err) => console.error("Error fetching CV:", err));
   }, []);
 
-  // Fetch social links
   useEffect(() => {
     fetch("http://localhost:8080/backend-portfolio/faraz/get_social_links.php")
       .then((res) => res.json())
@@ -74,15 +71,15 @@ const Home = () => {
       .catch((err) => console.error("Error fetching socials:", err));
   }, []);
 
-  // Fetch email
   useEffect(() => {
     fetch("http://localhost:8080/backend-portfolio/faraz/get_info.php")
       .then((res) => res.json())
-      .then((data) => data.success && data.data.Email && setEmail(data.data.Email))
+      .then(
+        (data) => data.success && data.data.Email && setEmail(data.data.Email)
+      )
       .catch((err) => console.error("Error fetching email:", err));
   }, []);
 
-  // Fetch projects dynamically
   useEffect(() => {
     fetch("http://localhost:8080/backend-portfolio/faraz/getProjects.php")
       .then((res) => res.json())
@@ -90,33 +87,9 @@ const Home = () => {
       .catch((err) => console.error("Error fetching projects:", err));
   }, []);
 
-  // Fetch services subtitle
+  // ---------------- Typing Effect ----------------
   useEffect(() => {
-    fetch("http://localhost:8080/backend-portfolio/faraz/getserviesDescription.php")
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.description) setSubtitle(data.description);
-      })
-      .catch((err) => console.error("Error fetching service subtitle:", err));
-  }, []);
-
-  // Fetch services
-  useEffect(() => {
-    fetch("http://localhost:8080/backend-portfolio/faraz/getServices.php")
-      .then((res) => res.json())
-      .then((data) => {
-        if (Array.isArray(data)) setServices(data.slice(0, 3)); // only 3 services
-      })
-      .catch((err) => console.error("Error fetching services:", err));
-  }, []);
-
-  const words = ["🚀 Web Developer", "✨ Frontend Enthusiast", "⚡ Backend Enthusiast"];
-  const [text, setText] = useState("");
-  const [wordIndex, setWordIndex] = useState(0);
-  const [isDeleting, setIsDeleting] = useState(false);
-
-  // Typing effect
-  useEffect(() => {
+    if (words.length === 0) return;
     const current = words[wordIndex];
     let timer;
 
@@ -130,40 +103,92 @@ const Home = () => {
     } else {
       const speed = isDeleting ? 50 : 110;
       timer = setTimeout(() => {
-        setText(isDeleting ? current.substring(0, text.length - 1) : current.substring(0, text.length + 1));
+        setText(
+          isDeleting
+            ? current.substring(0, text.length - 1)
+            : current.substring(0, text.length + 1)
+        );
       }, speed);
     }
 
     return () => clearTimeout(timer);
   }, [text, isDeleting, wordIndex, words]);
 
+  // ---------------- Services (Static) ----------------
+  const services = [
+    {
+      icon: <FaCode />,
+      title: "Web Development",
+      description:
+        "Custom websites with modern technologies and best practices.",
+    },
+    {
+      icon: <FaPaintBrush />,
+      title: "UI/UX Design",
+      description: "User-centered designs that are both beautiful and functional.",
+    },
+    {
+      icon: <FaMobileAlt />,
+      title: "Mobile Apps",
+      description:
+        "Responsive applications that work seamlessly across devices.",
+    },
+    {
+      icon: <FaGlobe />,
+      title: "SEO Optimization",
+      description:
+        "Boost your online presence with strategic optimization.",
+    },
+  ];
+
   return (
     <>
       <Navbar />
 
       {/* HERO SECTION */}
-      <section id="home" className="home-hero" style={{ backgroundImage: `url(${heroBg})` }}>
+      <section
+        id="home"
+        className="home-hero"
+        style={{ backgroundImage: `url(${heroBg})` }}
+      >
         <div className="home-overlay" />
         <div className="home-content">
           <div className="home-profile">
-            <img src={profilePic} alt="Faraz Ahmed" />
+           <img
+            src={
+              profile?.avatar
+                ? `http://localhost:8080/backend-portfolio/uploads/${profile.avatar}`
+                : profilePic
+            }
+            alt={profile?.name || "Profile"}
+            className="hero-avatar"
+          />
           </div>
           <h1>
-            Hi, I'm <span className="home-highlight">Faraz Ahmed</span>
+            Hi, I'm{" "}
+            <span className="home-highlight">
+              {profile?.name || "Your Name"}
+            </span>
           </h1>
           <h2 className="home-typing" aria-live="polite">
             <span className="home-typed">{text}</span>
             <span className="home-cursor" aria-hidden="true" />
           </h2>
           <p>
-            I build modern, responsive, and interactive web applications. Passionate about coding & problem solving, I deliver high-quality solutions that create amazing user experiences.
+            {profile?.details ||
+              "I build modern, responsive, and interactive web applications. Passionate about coding & problem solving, I deliver high-quality solutions that create amazing user experiences."}
           </p>
           <div className="home-buttons">
             <NavLink to="/project" className="home-btn primary">
               ✨ View My Work
             </NavLink>
             {cvLink ? (
-              <a href={cvLink} className="home-btn secondary" target="_blank" rel="noreferrer">
+              <a
+                href={cvLink}
+                className="home-btn secondary"
+                target="_blank"
+                rel="noreferrer"
+              >
                 ⬇ Download CV
               </a>
             ) : (
@@ -176,12 +201,22 @@ const Home = () => {
           {/* Social Icons */}
           <div className="home-socials">
             {socialLinks.LinkedIn && (
-              <a href={socialLinks.LinkedIn} target="_blank" rel="noreferrer" aria-label="LinkedIn">
+              <a
+                href={socialLinks.LinkedIn}
+                target="_blank"
+                rel="noreferrer"
+                aria-label="LinkedIn"
+              >
                 <FaLinkedin />
               </a>
             )}
             {socialLinks.GitHub && (
-              <a href={socialLinks.GitHub} target="_blank" rel="noreferrer" aria-label="Github">
+              <a
+                href={socialLinks.GitHub}
+                target="_blank"
+                rel="noreferrer"
+                aria-label="Github"
+              >
                 <FaGithub />
               </a>
             )}
@@ -204,32 +239,36 @@ const Home = () => {
       {/* SERVICES */}
       <section className="home-services">
         <h2 className="home-title">What I Do</h2>
-        <p className="home-subtitle">{subtitle}</p>
+        <p className="home-subtitle">
+          I specialize in creating digital experiences that combine beautiful
+          design with powerful functionality.
+        </p>
         <div className="home-services-grid">
-          {services.map((service, i) => {
-            const IconComponent = getIconByName(service.name);
-            return (
-              <div className="home-service-card" key={i}>
-                <div className="home-icon">
-                  <IconComponent />
-                </div>
-                <h3>{service.name}</h3>
-                <p>{service.description}</p>
-              </div>
-            );
-          })}
+          {services.map((service, i) => (
+            <div className="home-service-card" key={i}>
+              <div className="home-icon">{service.icon}</div>
+              <h3>{service.title}</h3>
+              <p>{service.description}</p>
+            </div>
+          ))}
         </div>
       </section>
 
       {/* FEATURED PROJECTS */}
       <section className="home-projects">
         <h2 className="home-title">Featured Projects</h2>
-        <p className="home-subtitle">A showcase of my recent work and creative solutions.</p>
+        <p className="home-subtitle">
+          A showcase of my recent work and creative solutions.
+        </p>
 
         <div className="home-projects-grid">
           {projects.map((proj) => (
             <div key={proj.id} className="home-project-card">
-              <img src={proj.image || "/default-placeholder.jpg"} alt={proj.name} className="home-project-img" />
+              <img
+                src={proj.image || "/default-placeholder.jpg"}
+                alt={proj.name}
+                className="home-project-img"
+              />
               <div className="home-project-content">
                 <h3 className="home-project-title">{proj.name}</h3>
                 <p className="home-project-desc">{proj.description}</p>
@@ -256,6 +295,7 @@ const Home = () => {
             </div>
           ))}
         </div>
+
         <br />
         <br />
         <NavLink to="/project" className="home-view-all">
@@ -267,7 +307,10 @@ const Home = () => {
       <section className="home-cta">
         <div className="home-cta-content">
           <h2>Ready to Start Your Project?</h2>
-          <p>Let’s collaborate and create something amazing together. Get in touch and let’s discuss your vision.</p>
+          <p>
+            Let’s collaborate and create something amazing together. Get in
+            touch and let’s discuss your vision.
+          </p>
           <NavLink to="/contact" className="home-cta-btn">
             Get In Touch →
           </NavLink>

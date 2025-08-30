@@ -21,6 +21,8 @@ button {
 .home-hero {
   position: relative;
   height: 110vh;
+  margin-left: -20px;
+  margin-right: -20px;
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
@@ -224,6 +226,8 @@ button {
   background: #0e0e12;
   color: #fff;
   text-align: center;
+  margin-left: -20px;
+  margin-right: -20px;
   padding: 60px 20px;
 }
 
@@ -282,6 +286,8 @@ button {
   background: #0d0d0d;
   color: #fff;
   padding: 60px 20px;
+  margin-left: -20px;
+  margin-right: -20px;
   text-align: center;
 }
 
