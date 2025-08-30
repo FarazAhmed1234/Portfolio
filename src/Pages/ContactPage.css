@@ -157,6 +157,12 @@
   text-align: left;
 }
 
+.contact-form:hover{
+      transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(102, 126, 234, 0.5);
+
+}
+
 
 .contact-form h3 {
   font-size: 1.5rem;
@@ -245,6 +251,14 @@
   font-size: 1.3rem;
 }
 
+
+
+.social-box,
+.info-box:hover{
+      transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(102, 126, 234, 0.5);
+
+}
 .info-box p,
 .social-box p {
   color: #a8b2d1;

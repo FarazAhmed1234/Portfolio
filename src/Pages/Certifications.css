@@ -82,8 +82,8 @@
 }
 
 .cert-card1:hover {
-  transform: translateY(-5px);
-  box-shadow: 0px 8px 18px rgba(106, 90, 249, 0.3);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(102, 126, 234, 0.5);
 }
 
 /* Header */

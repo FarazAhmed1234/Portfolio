@@ -260,8 +260,9 @@ button {
 }
 
 .home-service-card:hover {
-  transform: translateY(-8px);
-  background: #1c1c27;
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(102, 126, 234, 0.5);
+
 }
 
 .home-icon {
@@ -311,7 +312,8 @@ button {
 }
 
 .home-project-card:hover {
-  transform: translateY(-5px);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(102, 126, 234, 0.5);
 }
 
 .home-project-img {
@@ -384,7 +386,8 @@ button {
 }
 
 .home-view-all:hover {
-  background: #2a2a40;
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(102, 126, 234, 0.5);
 }
 
 /* ---------- CTA ---------- */
@@ -424,8 +427,9 @@ button {
 }
 
 .home-cta-btn:hover {
-  background: #7c3aed;
-  transform: translateY(-2px);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(102, 126, 234, 0.5);
+
 }
 
 /* ---------- ANIMATIONS ---------- */
