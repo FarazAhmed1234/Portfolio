@@ -3,11 +3,13 @@ import "./AdminCertifications.css";
 import Sidebar from "./Sidebar";
 import axios from "axios";
 
-const API_URL = "http://localhost/educonnect/certifications.php";
+const API_URL = "http://localhost:8080/backend-portfolio/certifications.php";
 
 const Certifications = () => {
   const [showForm, setShowForm] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
   const [certification, setCertification] = useState({
+    id: null,
     name: "",
     institution: "",
     description: "",
@@ -19,36 +21,43 @@ const Certifications = () => {
 
   const [certifications, setCertifications] = useState([]);
 
-  // Fetch certifications from DB
+  // Fetch certifications
   useEffect(() => {
-    axios.get(API_URL).then((res) => {
-      setCertifications(res.data);
-    });
+    fetchCertifications();
   }, []);
 
-  // Handle input changes
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setCertification({
-      ...certification,
-      [name]: value,
-    });
+  const fetchCertifications = async () => {
+    const res = await axios.get(API_URL);
+    setCertifications(res.data);
   };
 
-  // Handle submit
+  // Input changes
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setCertification({ ...certification, [name]: value });
+  };
+
+  // Add / Update certification
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(API_URL, certification);
-      alert("Certification added successfully!");
-      setShowForm(false);
+      if (isEditing) {
+        // Update
+        await axios.put(API_URL, certification);
+        alert("Certification updated!");
+      } else {
+        // Add new
+        await axios.post(API_URL, certification);
+        alert("Certification added!");
+      }
 
-      // refresh list
-      const res = await axios.get(API_URL);
-      setCertifications(res.data);
+      setShowForm(false);
+      setIsEditing(false);
+      fetchCertifications();
 
       // Reset form
       setCertification({
+        id: null,
         name: "",
         institution: "",
         description: "",
@@ -62,7 +71,7 @@ const Certifications = () => {
     }
   };
 
-  // Delete certification
+  // Delete
   const handleDelete = async (id) => {
     try {
       await axios.delete(API_URL, { data: { id } });
@@ -72,11 +81,31 @@ const Certifications = () => {
     }
   };
 
+  // Edit button click
+  const handleEdit = (cert) => {
+    setCertification(cert);
+    setIsEditing(true);
+    setShowForm(true);
+  };
+
   return (
     <>
       <Sidebar />
       <div className="certifications-container">
-        <button className="add-cert-btn" onClick={() => setShowForm(true)}>
+        <button className="add-cert-btn" onClick={() => {
+          setIsEditing(false);
+          setCertification({
+            id: null,
+            name: "",
+            institution: "",
+            description: "",
+            skills: "",
+            credentialId: "",
+            dateOfIssue: "",
+            verifyLink: "",
+          });
+          setShowForm(true);
+        }}>
           + Add Certification
         </button>
 
@@ -95,9 +124,8 @@ const Certifications = () => {
               )}
 
               <div className="cert-card-actions">
-                <button className="delete-btn" onClick={() => handleDelete(cert.id)}>
-                  Delete
-                </button>
+                <button className="edit-btn" onClick={() => handleEdit(cert)}>Edit</button>
+                <button className="delete-btn" onClick={() => handleDelete(cert.id)}>Delete</button>
               </div>
             </div>
           ))}
@@ -107,7 +135,7 @@ const Certifications = () => {
         {showForm && (
           <div className="modal">
             <div className="modal-content">
-              <h2>Add Certification</h2>
+              <h2>{isEditing ? "Edit Certification" : "Add Certification"}</h2>
               <form onSubmit={handleSubmit}>
                 <input type="text" name="name" placeholder="Certification Name"
                   value={certification.name} onChange={handleChange} required />
@@ -125,7 +153,7 @@ const Certifications = () => {
                   value={certification.verifyLink} onChange={handleChange} />
 
                 <div className="form-actions">
-                  <button type="submit">Save</button>
+                  <button type="submit">{isEditing ? "Update" : "Save"}</button>
                   <button type="button" onClick={() => setShowForm(false)}>Cancel</button>
                 </div>
               </form>

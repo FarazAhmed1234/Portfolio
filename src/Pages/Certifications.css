@@ -70,16 +70,18 @@
   margin: auto;
 }
 
-.cert-card {
+.cert-card1 {
   background: #1a1c2c; /* Dark card */
   border: 1px solid #2d2f44;
   border-radius: 12px;
   padding: 20px;
   transition: 0.3s ease;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+  width: 410px;
+  text-decoration: none;
 }
 
-.cert-card:hover {
+.cert-card1:hover {
   transform: translateY(-5px);
   box-shadow: 0px 8px 18px rgba(106, 90, 249, 0.3);
 }

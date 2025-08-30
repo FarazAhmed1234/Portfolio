@@ -1,97 +1,98 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./Certifications.css";
-import { FaCertificate, FaCheckCircle , FaCalendarAlt} from "react-icons/fa";
+import { FaCertificate, FaCheckCircle, FaCalendarAlt } from "react-icons/fa";
 import Navbar from "./Navbar";
+import axios from "axios";
 
-const certificates = [
-  {
-    title: "React - The Complete Guide 2024",
-    platform: "Udemy",
-    date: "November 15, 2024",
-    description:
-      "Comprehensive course covering React fundamentals, hooks, context, state management, and modern patterns.",
-    skills: ["React", "JavaScript", "Redux", "Next.js", "TypeScript"],
-    credential: "UC-12345678",
-    verified: true,
-  },
-  {
-    title: "Advanced JavaScript Concepts",
-    platform: "FreeCodeCamp",
-    date: "October 22, 2024",
-    description:
-      "Deep dive into advanced JavaScript concepts including closures, prototypes, async programming, and design patterns.",
-    skills: ["JavaScript", "ES6+", "Async/Await", "Design Patterns", "Performance"],
-    credential: "FCC-JS-2024-001",
-    verified: true,
-  },
-  {
-    title: "UI/UX Design Specialization",
-    platform: "Coursera - CalArts",
-    date: "September 18, 2024",
-    description:
-      "Comprehensive program covering user research, wireframing, prototyping, and visual design principles.",
-    skills: ["UI Design", "UX Research", "Figma", "Prototyping", "User Testing"],
-    credential: "ABCD1234",
-    verified: true,
-  },
-];
+const API_URL = "http://localhost:8080/backend-portfolio/certificat.php"; 
+// <-- Change to your actual backend API
+
 const Certifications = () => {
+  const [certificates, setCertificates] = useState([]);
+
+  // Fetch from database
+  useEffect(() => {
+    axios
+      .get(API_URL)
+      .then((res) => {
+        setCertificates(res.data); // assuming backend returns JSON array
+      })
+      .catch((err) => {
+        console.error("Error fetching certifications:", err);
+      });
+  }, []);
+
   return (
     <>
-    <Navbar />
-    <section className="cert-section">
-      <h2 className="cert-title">
-        Certifications <span>& Achievements</span>
-      </h2>
-      <p className="cert-subtitle">
-        Continuous learning and professional development in web development,
-        design, and modern technologies. All certifications are verified and validated.
-      </p>
+      <Navbar />
+      <section className="cert-section">
+        <h2 className="cert-title">
+          Certifications <span>& Achievements</span>
+        </h2>
+        <p className="cert-subtitle">
+          Continuous learning and professional development in web development,
+          design, and modern technologies. All certifications are verified and validated.
+        </p>
 
-      <div className="cert-buttons">
-        <button className="cert-btn">
-          <FaCertificate /> 6 Certificates
-        </button>
-        <button className="cert-btn">
-          <FaCheckCircle /> 100% Verified
-        </button>
-      </div>
-    </section>
+        <div className="cert-buttons">
+          <button className="cert-btn">
+            <FaCertificate /> {certificates.length} Certificates
+          </button>
+          <button className="cert-btn">
+            <FaCheckCircle /> 100% Verified
+          </button>
+        </div>
+      </section>
 
-       <section className="certificates-section">
-      <div className="cert-grid">
-        {certificates.map((cert, index) => (
-          <div key={index} className="cert-card">
-            <div className="cert-header">
-              <h3>{cert.title}</h3>
-              {cert.verified && <span className="verified">Verified</span>}
+      <section className="certificates-section">
+        <div className="cert-grid">
+          {certificates.map((cert, index) => (
+            <div key={index} className="cert-card1">
+              <div className="cert-header">
+                <h3>{cert.name}</h3>
+                {cert.verifyLink && <span className="verified">Verified</span>}
+              </div>
+
+              <p className="cert-platform">{cert.institution}</p>
+
+              <p className="cert-date">
+                <FaCalendarAlt /> {cert.dateOfIssue}
+              </p>
+
+              <p className="cert-description">{cert.description}</p>
+
+              <div className="skills">
+                {cert.skills?.split(",").map((skill, i) => (
+                  <span key={i} className="skill-tag">
+                    {skill.trim()}
+                  </span>
+                ))}
+              </div>
+
+              <p className="cert-id">Credential ID: {cert.credentialId}</p>
+
+              {cert.picture && (
+                <img
+                  src={`http://localhost:8080/backend-portfolio/uploads/${cert.picture}`}
+                  alt={cert.name}
+                  className="cert-image"
+                />
+              )}
+
+              {cert.verifyLink && (
+                <a
+                  href={cert.verifyLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="verify-btn"
+                >
+                  <FaCheckCircle /> Verify Certificate
+                </a>
+              )}
             </div>
-            <p className="cert-platform">{cert.platform}</p>
-
-            <p className="cert-date">
-              <FaCalendarAlt /> {cert.date}
-            </p>
-
-            <p className="cert-description">{cert.description}</p>
-
-            <div className="skills">
-              {cert.skills.map((skill, i) => (
-                <span key={i} className="skill-tag">
-                  {skill}
-                </span>
-              ))}
-            </div>
-
-            <p className="cert-id">Credential ID: {cert.credential}</p>
-
-            <button className="verify-btn">
-              <FaCheckCircle /> Verify Certificate
-            </button>
-          </div>
-        ))}
-      </div>
-    </section>
-
+          ))}
+        </div>
+      </section>
     </>
   );
 };
