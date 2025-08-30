@@ -12,13 +12,14 @@
   text-align: center;
   overflow: hidden;
   padding-top: 60px; /* leave space for navbar */
+  background: linear-gradient(135deg, #0a0a23, #111132);
 }
 
 /* overlay for contrast */
 .home-section .overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(6,7,20,0.55), rgba(10,11,40,0.75));
+  background: linear-gradient(180deg, rgba(10,11,40,0.6), rgba(15,15,60,0.85));
   backdrop-filter: blur(3px);
   z-index: 1;
 }
@@ -38,10 +39,10 @@
   margin: 0 auto 22px;
   border-radius: 50%;
   overflow: hidden;
-  border: 4px solid #00f2fe;
-  box-shadow: 0 0 30px rgba(0,242,254,0.18), 0 8px 40px rgba(0,0,0,0.6);
+  border: 4px solid #6a5af9;
+  box-shadow: 0 0 30px rgba(106,90,249,0.25), 0 8px 40px rgba(0,0,0,0.6);
   animation: float 4s ease-in-out infinite;
-  background: linear-gradient(135deg, rgba(0,242,254,0.06), rgba(79,172,254,0.03));
+  background: linear-gradient(135deg, rgba(106,90,249,0.08), rgba(180,76,255,0.05));
 }
 
 .profile-circle img {
@@ -59,12 +60,12 @@
 .home-content h1 {
   font-size: 2.8rem;
   margin: 6px 0 10px;
-  text-shadow: 0 6px 30px rgba(0,242,254,0.08);
+  text-shadow: 0 6px 30px rgba(106,90,249,0.15);
   letter-spacing: 0.6px;
 }
 
 .highlight {
-  background: linear-gradient(90deg, #00f2fe, #4facfe);
+  background: linear-gradient(90deg, #6a5af9, #b44cff);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   font-weight: 800;
@@ -73,13 +74,13 @@
 /* Typing line */
 .typing-text {
   margin: 6px 0 18px;
-  height: 36px; /* reserve height so layout doesn't jump */
+  height: 36px;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
   font-size: 1.2rem;
-  color: #ffd38a;
+  color: #c9a6ff; /* soft purple instead of gold */
   font-weight: 700;
 }
 
@@ -93,7 +94,7 @@
 .cursor {
   width: 2px;
   height: 1.25em;
-  background: #ffd38a;
+  background: #c9a6ff;
   display: inline-block;
   vertical-align: middle;
   animation: blink 0.8s steps(1) infinite;
@@ -105,7 +106,7 @@
   font-size: 1.05rem;
   margin: 12px 0 22px;
   line-height: 1.6;
-  color: #e6e6e6;
+  color: #a1a7b3;
   max-width: 720px;
   margin-left: auto;
   margin-right: auto;
@@ -128,9 +129,9 @@
 }
 
 .btn.primary {
-  background: linear-gradient(45deg, #00f2fe, #4facfe);
-  color: #071229;
-  box-shadow: 0 8px 30px rgba(79,172,254,0.12);
+  background: linear-gradient(45deg, #6a5af9, #b44cff);
+  color: #fff;
+  box-shadow: 0 8px 30px rgba(106,90,249,0.25);
 }
 
 .btn.primary:hover {
@@ -139,17 +140,25 @@
 
 .btn.secondary {
   background: transparent;
-  border: 2px solid #ffd38a;
-  color: #ffd38a;
+  border: 2px solid #c9a6ff;
+  color: #c9a6ff;
 }
 
 .btn.secondary:hover {
-  background: #ffd38a;
-  color: #071229;
+  background: #c9a6ff;
+  color: #111132;
   transform: translateY(-4px);
 }
 
-
+/* Social icons */
+.social-icons {
+  display: flex;
+  gap: 22px;
+  justify-content: center;
+  margin-bottom: 60px;
+  z-index: 2;
+  position: relative;
+}
 
 .social-icons a {
   font-size: 1.6rem;
@@ -158,29 +167,18 @@
 }
 
 .social-icons a:hover {
-  color: #00f2fe;
+  color: #b44cff;
   transform: translateY(-6px) scale(1.18);
-}
-
-/* Social icons */
-.social-icons {
-  display: flex;
-  gap: 22px;
-  justify-content: center;
-  margin-bottom: 60px; /* Add space below so mouse icon is separate */
-  z-index: 2; /* make sure it stays above overlay */
-  position: relative; /* relative to home-content */
 }
 
 /* scroll down icon */
 .scroll-down {
   position: absolute;
-  bottom: 20px; /* stays at bottom */
+  bottom: 20px;
   left: 50%;
   transform: translateX(-50%);
-  z-index: 2; /* make sure it’s above overlay */
+  z-index: 2;
 }
-
 
 .mouse-icon {
   display: inline-block;
@@ -230,4 +228,102 @@
   .home-content h1 { font-size: 2rem; }
   .typing-text { font-size: 1rem; height: 30px; }
   .profile-circle { width: 120px; height: 120px; }
+}
+
+.what-i-do {
+  background: #0e0e12;
+  color: #fff;
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.section-title {
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.section-subtitle {
+  color: #b0b0c3;
+  font-size: 1.1rem;
+  margin-bottom: 50px;
+}
+
+.services {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 30px;
+  justify-content: center;
+  align-items: stretch;
+}
+
+.service-card {
+  background: #12121a;
+  border-radius: 12px;
+  padding: 30px 20px;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.service-card:hover {
+  transform: translateY(-8px);
+  background: #1c1c27;
+}
+
+.icon {
+  font-size: 2rem;
+  margin-bottom: 15px;
+  color: #7d5fff; /* purple gradient shade */
+}
+
+.service-card h3 {
+  font-size: 1.3rem;
+  margin-bottom: 10px;
+}
+
+.service-card p {
+  font-size: 0.95rem;
+  color: #aaa;
+  line-height: 1.5;
+}
+
+.project-cta {
+  background: linear-gradient(135deg, #4338ca, #6d28d9);
+  color: white;
+  text-align: center;
+  padding: 80px 20px;
+width: auto;
+    margin-left: -20px;
+    margin-right: -20px;
+    margin-bottom: -20px;
+
+}
+
+.cta-content h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 15px;
+  color: #fff;
+}
+
+.cta-content p {
+  font-size: 1rem;
+  margin-bottom: 25px;
+  color: #ddd;
+}
+
+.cta-btn {
+  display: inline-block;
+  background: #8b5cf6;
+  color: white;
+  padding: 12px 28px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.cta-btn:hover {
+  background: #7c3aed;
+  transform: translateY(-2px);
 }

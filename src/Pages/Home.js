@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "./Navbar";
+import { NavLink } from "react-router-dom";
+
 import "./Home.css";
 import { FaGithub, FaLinkedin, FaEnvelope } from "react-icons/fa";
+import { FaCode, FaPaintBrush, FaMobileAlt, FaGlobe } from "react-icons/fa";
 
 import heroBg from "../assets/hero-bg.jpg";
 import profilePic from "../assets/my-photo.jpg";
@@ -64,6 +67,28 @@ const Home = () => {
     return () => clearTimeout(timer);
   }, [text, isDeleting, wordIndex, words]);
 
+  const services = [
+    {
+      icon: <FaCode />,
+      title: "Web Development",
+      description: "Custom websites with modern technologies and best practices.",
+    },
+    {
+      icon: <FaPaintBrush />,
+      title: "UI/UX Design",
+      description: "User-centered designs that are both beautiful and functional.",
+    },
+    {
+      icon: <FaMobileAlt />,
+      title: "Mobile Apps",
+      description: "Responsive applications that work seamlessly across devices.",
+    },
+    {
+      icon: <FaGlobe />,
+      title: "SEO Optimization",
+      description: "Boost your online presence with strategic optimization.",
+    },
+  ];
   return (
     <>
       <Navbar />
@@ -95,12 +120,9 @@ const Home = () => {
           </p>
 
           <div className="buttons">
-            <button
-              className="btn primary"
-              onClick={() => (window.location.href = "/project")}
-            >
-              ✨ View My Work
-            </button>
+        
+
+             <NavLink to="/project"  className="btn primary">✨ View My Work</NavLink>
 
             {cvLink ? (
               <a href={cvLink} className="btn secondary" target="_blank" rel="noreferrer">
@@ -141,6 +163,38 @@ const Home = () => {
               <i className="mouse-icon"></i>
             </a>
           </div>
+        </div>
+      </section>
+
+      <section className="what-i-do">
+        <h2 className="section-title">What I Do</h2>
+        <p className="section-subtitle">
+          I specialize in creating digital experiences that combine beautiful
+          design with powerful functionality.
+        </p>
+
+        <div className="services">
+          {services.map((service, index) => (
+            <div className="service-card" key={index}>
+              <div className="icon">{service.icon}</div>
+              <h3>{service.title}</h3>
+              <p>{service.description}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+
+      <section className="project-cta">
+        <div className="cta-content">
+          <h2>Ready to Start Your Project?</h2>
+          <p>
+            Let’s collaborate and create something amazing together. Get in touch
+            and let’s discuss your vision.
+          </p>
+
+          <NavLink to="/contact" className="cta-btn">Get In Touch →</NavLink>
+
         </div>
       </section>
     </>
